@@ -14,7 +14,248 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      authors: {
+        Row: {
+          bio: string | null
+          created_at: string
+          id: string
+          links: Json | null
+          name: string
+          photo_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          id?: string
+          links?: Json | null
+          name: string
+          photo_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          id?: string
+          links?: Json | null
+          name?: string
+          photo_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      blog_posts: {
+        Row: {
+          author_id: string | null
+          content_en: string | null
+          content_pt: string | null
+          created_at: string
+          id: string
+          published: boolean
+          published_at: string | null
+          slug: string
+          title_en: string | null
+          title_pt: string
+          updated_at: string
+        }
+        Insert: {
+          author_id?: string | null
+          content_en?: string | null
+          content_pt?: string | null
+          created_at?: string
+          id?: string
+          published?: boolean
+          published_at?: string | null
+          slug: string
+          title_en?: string | null
+          title_pt: string
+          updated_at?: string
+        }
+        Update: {
+          author_id?: string | null
+          content_en?: string | null
+          content_pt?: string | null
+          created_at?: string
+          id?: string
+          published?: boolean
+          published_at?: string | null
+          slug?: string
+          title_en?: string | null
+          title_pt?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "authors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_posts_categories: {
+        Row: {
+          category_id: string
+          post_id: string
+        }
+        Insert: {
+          category_id: string
+          post_id: string
+        }
+        Update: {
+          category_id?: string
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_posts_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "blog_posts_categories_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      categories: {
+        Row: {
+          created_at: string
+          description_en: string | null
+          description_pt: string | null
+          id: string
+          slug: string
+          title_en: string | null
+          title_pt: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_en?: string | null
+          description_pt?: string | null
+          id?: string
+          slug: string
+          title_en?: string | null
+          title_pt: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_en?: string | null
+          description_pt?: string | null
+          id?: string
+          slug?: string
+          title_en?: string | null
+          title_pt?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      docs: {
+        Row: {
+          content_en: string | null
+          content_pt: string | null
+          created_at: string
+          id: string
+          parent_id: string | null
+          position: number | null
+          project_id: string | null
+          published: boolean
+          slug: string
+          title_en: string | null
+          title_pt: string
+          updated_at: string
+        }
+        Insert: {
+          content_en?: string | null
+          content_pt?: string | null
+          created_at?: string
+          id?: string
+          parent_id?: string | null
+          position?: number | null
+          project_id?: string | null
+          published?: boolean
+          slug: string
+          title_en?: string | null
+          title_pt: string
+          updated_at?: string
+        }
+        Update: {
+          content_en?: string | null
+          content_pt?: string | null
+          created_at?: string
+          id?: string
+          parent_id?: string | null
+          position?: number | null
+          project_id?: string | null
+          published?: boolean
+          slug?: string
+          title_en?: string | null
+          title_pt?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "docs_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "docs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "docs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          created_at: string
+          description_en: string | null
+          description_pt: string | null
+          icon: string | null
+          id: string
+          links: Json | null
+          name_en: string | null
+          name_pt: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_en?: string | null
+          description_pt?: string | null
+          icon?: string | null
+          id?: string
+          links?: Json | null
+          name_en?: string | null
+          name_pt: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_en?: string | null
+          description_pt?: string | null
+          icon?: string | null
+          id?: string
+          links?: Json | null
+          name_en?: string | null
+          name_pt?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
