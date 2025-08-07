@@ -1,69 +1,93 @@
 import { Heart, Sparkles, Zap, Users, Globe, Code2 } from "lucide-react";
+import { useSite } from "@/contexts/SiteContext";
 
-const values = [
-  {
-    icon: Heart,
-    title: "Inclusão & Diversidade",
-    description: "Criamos tecnologia para todas as pessoas, celebrando a diversidade como nossa maior força.",
-    color: "text-pink-400"
-  },
-  {
-    icon: Sparkles,
-    title: "Inovação Constante",
-    description: "Exploramos tecnologias emergentes para criar soluções que transcendem o presente.",
-    color: "text-primary"
-  },
-  {
-    icon: Zap,
-    title: "Performance Extrema",
-    description: "Otimizamos cada linha de código para entregar experiências instantâneas e fluidas.",
-    color: "text-secondary"
-  },
-  {
-    icon: Users,
-    title: "Comunidade Ativa",
-    description: "Construímos juntos, compartilhamos conhecimento e crescemos como coletivo.",
-    color: "text-purple-400"
-  },
-  {
-    icon: Globe,
-    title: "Impacto Global",
-    description: "Nossas soluções conectam culturas e transformam vidas ao redor do mundo.",
-    color: "text-green-400"
-  },
-  {
-    icon: Code2,
-    title: "Open Source",
-    description: "Acreditamos no poder do código aberto para democratizar a tecnologia.",
-    color: "text-cyan-400"
-  }
-];
-
-const stats = [
-  { label: "Projetos Ativos", value: "50+", suffix: "" },
-  { label: "Contribuidores", value: "200+", suffix: "" },
-  { label: "Países Alcançados", value: "25+", suffix: "" },
-  { label: "Stars no GitHub", value: "15k+", suffix: "" }
-];
+// Map icon strings from CMS to Lucide React components
+const iconMap: Record<string, any> = {
+  Heart,
+  Sparkles,
+  Zap,
+  Users,
+  Globe,
+  Code2,
+};
 
 export function About() {
+  const { siteSettings, isLoading } = useSite();
+
+  // Default values to use while loading or if CMS data is not available
+  const defaultValues = [
+    {
+      icon: "Heart",
+      title: "Inclusão & Diversidade",
+      description: "Criamos tecnologia para todas as pessoas, celebrando a diversidade como nossa maior força.",
+      color: "text-pink-400"
+    },
+    {
+      icon: "Sparkles",
+      title: "Inovação Constante",
+      description: "Exploramos tecnologias emergentes para criar soluções que transcendem o presente.",
+      color: "text-primary"
+    },
+    {
+      icon: "Zap",
+      title: "Performance Extrema",
+      description: "Otimizamos cada linha de código para entregar experiências instantâneas e fluidas.",
+      color: "text-secondary"
+    },
+    {
+      icon: "Users",
+      title: "Comunidade Ativa",
+      description: "Construímos juntos, compartilhamos conhecimento e crescemos como coletivo.",
+      color: "text-purple-400"
+    },
+    {
+      icon: "Globe",
+      title: "Impacto Global",
+      description: "Nossas soluções conectam culturas e transformam vidas ao redor do mundo.",
+      color: "text-green-400"
+    },
+    {
+      icon: "Code2",
+      title: "Open Source",
+      description: "Acreditamos no poder do código aberto para democratizar a tecnologia.",
+      color: "text-cyan-400"
+    }
+  ];
+
+  const defaultStats = [
+    { label: "Projetos Ativos", value: "50+", suffix: "" },
+    { label: "Contribuidores", value: "200+", suffix: "" },
+    { label: "Países Alcançados", value: "25+", suffix: "" },
+    { label: "Stars no GitHub", value: "15k+", suffix: "" }
+  ];
+
+  // Use CMS data if available, otherwise use defaults
+  const aboutSection = siteSettings?.aboutSection || {};
+  const values = aboutSection.values || defaultValues;
+  const stats = aboutSection.stats || defaultStats;
+  const heading = aboutSection.heading || "Sobre a Monynha";
+  const description = aboutSection.description || "Somos uma comunidade de desenvolvedores apaixonados por criar o futuro da web. Nascemos da necessidade de tecnologia mais inclusiva, acessível e extraordinária.";
+  const missionStatement = aboutSection.missionStatement || "Democratizar a tecnologia através de soluções inovadoras e inclusivas, criando um futuro digital onde todas as pessoas possam prosperar. Utilizamos nosso conhecimento técnico como ferramenta de transformação social, sempre celebrando a diversidade e promovendo a igualdade.";
+
   return (
     <section className="py-20 relative">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-5xl font-space-grotesk font-bold mb-6">
-            Sobre a <span className="gradient-text">Monynha</span>
+            {isLoading ? "Sobre a " : heading.split(" ").slice(0, -1).join(" ") + " "}
+            <span className="gradient-text">
+              {isLoading ? "Monynha" : heading.split(" ").slice(-1)}
+            </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            Somos uma comunidade de desenvolvedores apaixonados por criar o futuro da web. 
-            Nascemos da necessidade de tecnologia mais inclusiva, acessível e extraordinária.
+            {isLoading ? description : aboutSection.description}
           </p>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
-          {stats.map((stat, index) => (
+          {stats.map((stat: any, index: number) => (
             <div 
               key={stat.label} 
               className="text-center glass-card"
@@ -81,12 +105,12 @@ export function About() {
 
         {/* Values Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {values.map((value, index) => {
-            const IconComponent = value.icon;
+          {values.map((value: any, index: number) => {
+            const IconComponent = iconMap[value.icon] || Heart;
             return (
               <div 
                 key={value.title} 
-                className="glass-card glow-hover group"
+                className="glass-card glow-hover group cursor-pointer"
                 style={{ animationDelay: `${index * 0.15}s` }}
               >
                 <div className="flex items-start space-x-4">
@@ -115,10 +139,7 @@ export function About() {
               Nossa Missão
             </h3>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Democratizar a tecnologia através de soluções inovadoras e inclusivas, 
-              criando um futuro digital onde todas as pessoas possam prosperar. 
-              Utilizamos nosso conhecimento técnico como ferramenta de transformação social, 
-              sempre celebrando a diversidade e promovendo a igualdade.
+              {missionStatement}
             </p>
           </div>
         </div>

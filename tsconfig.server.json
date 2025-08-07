@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "outDir": "dist",
+    "target": "ES2020",
+    "esModuleInterop": true,
+    "isolatedModules": false,
+    "noEmit": false
+  },
+  "include": ["src/cms/**/*.ts"],
+  "exclude": ["node_modules"]
+}

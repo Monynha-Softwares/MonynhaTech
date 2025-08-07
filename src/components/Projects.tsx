@@ -1,40 +1,87 @@
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, Star, Users, Code } from "lucide-react";
+import api from "@/services/api";
 
-const projects = [
-  {
-    id: 1,
-    title: "Nexus Lab",
-    description: "Plataforma experimental para desenvolvimento de protótipos futuristas com tecnologias emergentes.",
-    tech: ["React", "WebGL", "AI/ML", "WebAssembly"],
-    stars: "2.1k",
-    contributors: "12",
-    status: "Em desenvolvimento",
-    gradient: "from-primary to-primary-glow"
-  },
-  {
-    id: 2,
-    title: "Quantum UI",
-    description: "Sistema de design futurista com componentes holográficos e animações quânticas.",
-    tech: ["Framer Motion", "Three.js", "GSAP", "CSS3"],
-    stars: "856",
-    contributors: "8",
-    status: "Stable",
-    gradient: "from-secondary to-secondary-glow"
-  },
-  {
-    id: 3,
-    title: "Neural CMS",
-    description: "Sistema de gerenciamento de conteúdo com IA integrada e edição inteligente.",
-    tech: ["Payload CMS", "OpenAI", "PostgreSQL", "Docker"],
-    stars: "1.3k",
-    contributors: "15",
-    status: "Beta",
-    gradient: "from-purple-500 to-pink-500"
-  }
-];
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  tech: { name: string }[];
+  stars: string;
+  contributors: string;
+  status: string;
+  gradient: string;
+  githubUrl?: string;
+  demoUrl?: string;
+}
 
 export function Projects() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Default projects to show while loading or if API fails
+  const defaultProjects = [
+    {
+      id: "1",
+      title: "Nexus Lab",
+      description: "Plataforma experimental para desenvolvimento de protótipos futuristas com tecnologias emergentes.",
+      tech: [{ name: "React" }, { name: "WebGL" }, { name: "AI/ML" }, { name: "WebAssembly" }],
+      stars: "2.1k",
+      contributors: "12",
+      status: "Em desenvolvimento",
+      gradient: "from-primary to-primary-glow"
+    },
+    {
+      id: "2",
+      title: "Quantum UI",
+      description: "Sistema de design futurista com componentes holográficos e animações quânticas.",
+      tech: [{ name: "Framer Motion" }, { name: "Three.js" }, { name: "GSAP" }, { name: "CSS3" }],
+      stars: "856",
+      contributors: "8",
+      status: "Stable",
+      gradient: "from-secondary to-secondary-glow"
+    },
+    {
+      id: "3",
+      title: "Neural CMS",
+      description: "Sistema de gerenciamento de conteúdo com IA integrada e edição inteligente.",
+      tech: [{ name: "Payload CMS" }, { name: "OpenAI" }, { name: "PostgreSQL" }, { name: "Docker" }],
+      stars: "1.3k",
+      contributors: "15",
+      status: "Beta",
+      gradient: "from-purple-500 to-pink-500"
+    }
+  ];
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        setIsLoading(true);
+        const response = await api.projects.getAll();
+        if (response && response.docs && response.docs.length > 0) {
+          setProjects(response.docs);
+        } else {
+          // If no projects are returned, use default projects
+          setProjects(defaultProjects);
+        }
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+        setError("Failed to load projects. Using default data instead.");
+        setProjects(defaultProjects);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  // Display projects - either from API or defaults
+  const displayProjects = isLoading ? defaultProjects : projects;
+
   return (
     <section id="projects" className="py-20 relative">
       <div className="container mx-auto px-6">
@@ -47,11 +94,16 @@ export function Projects() {
             Desenvolvemos soluções inovadoras que transformam ideias em realidade digital, 
             sempre focando em inclusão, performance e experiências extraordinárias.
           </p>
+          {error && (
+            <p className="text-sm text-yellow-500 mt-2">
+              {error}
+            </p>
+          )}
         </div>
 
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
-          {projects.map((project, index) => (
+          {displayProjects.map((project, index) => (
             <div 
               key={project.id} 
               className="glass-card glow-hover group cursor-pointer"
@@ -96,23 +148,27 @@ export function Projects() {
                 <div className="flex flex-wrap gap-2 mb-6">
                   {project.tech.map((tech) => (
                     <span 
-                      key={tech} 
+                      key={tech.name} 
                       className="px-3 py-1 bg-background/50 rounded-lg text-xs font-jetbrains-mono border border-border/50"
                     >
-                      {tech}
+                      {tech.name}
                     </span>
                   ))}
                 </div>
 
                 {/* Action Buttons */}
                 <div className="flex space-x-3">
-                  <Button variant="outline" size="sm" className="flex-1">
-                    <Github className="w-4 h-4 mr-2" />
-                    Código
+                  <Button variant="outline" size="sm" className="flex-1" asChild>
+                    <a href={project.githubUrl || "#"} target="_blank" rel="noopener noreferrer">
+                      <Github className="w-4 h-4 mr-2" />
+                      Código
+                    </a>
                   </Button>
-                  <Button variant="glow" size="sm" className="flex-1">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Demo
+                  <Button variant="glow" size="sm" className="flex-1" asChild>
+                    <a href={project.demoUrl || "#"} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Demo
+                    </a>
                   </Button>
                 </div>
               </div>

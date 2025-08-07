@@ -1,73 +1,151 @@
-# Welcome to your Lovable project
+# Monynha Nexus Lab
 
-## Project info
+Monynha Nexus Lab is a futuristic web platform showcasing innovative projects and technologies. This project combines a modern React frontend with Payload CMS for content management.
 
-**URL**: https://lovable.dev/projects/07ddc2b0-47c0-45c2-9164-59c3ee44763c
+## Features
 
-## How can I edit this code?
+- Modern, responsive UI with futuristic design elements
+- Fully integrated Payload CMS for content management
+- Dynamic content sections: Hero, About, Projects, and more
+- Multi-language support (PT/EN)
+- Supabase integration for additional data storage
+- Optimized for performance and accessibility
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS, shadcn/ui
+- **CMS**: Payload CMS
+- **Database**: MongoDB (for CMS), Supabase (for additional features)
+- **Styling**: Tailwind CSS with custom animations
+- **State Management**: React Context API, TanStack Query
+- **Deployment**: Configurable for various hosting platforms
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/07ddc2b0-47c0-45c2-9164-59c3ee44763c) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js 18+ and npm
+- MongoDB (local or Atlas)
+- Git
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Monynha-Softwares/monynha-nexus-lab.git
+   cd monynha-nexus-lab
+   ```
 
-Follow these steps:
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Set up environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+   Edit the `.env` file with your MongoDB connection string and other required variables.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+4. Seed the database with initial content:
+   ```bash
+   npm run seed
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Running the Application
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+1. Start the Payload CMS server:
+   ```bash
+   npm run dev:cms
+   ```
+
+2. In a separate terminal, start the frontend development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Access the application:
+   - Frontend: http://localhost:5173
+   - Payload CMS Admin: http://localhost:3000/admin
+   - Default admin credentials:
+     - Email: admin@monynha.com
+     - Password: MonynhaAdmin123!
+
+## Project Structure
+
+```
+monynha-nexus-lab/
+├── public/              # Static assets
+├── src/
+│   ├── assets/          # Images and other assets
+│   ├── cms/             # Payload CMS configuration
+│   │   ├── collections/ # CMS collection definitions
+│   │   ├── globals/     # Global CMS data definitions
+│   │   ├── server.ts    # CMS server setup
+│   │   └── seed.ts      # Database seeding script
+│   ├── components/      # React components
+│   │   └── ui/          # UI components (shadcn/ui)
+│   ├── contexts/        # React context providers
+│   ├── hooks/           # Custom React hooks
+│   ├── integrations/    # Third-party integrations
+│   │   └── supabase/    # Supabase client and types
+│   ├── lib/             # Utility functions
+│   ├── pages/           # Page components
+│   └── services/        # API services
+├── .env                 # Environment variables (not in repo)
+├── .env.example         # Example environment variables
+└── package.json         # Project dependencies and scripts
 ```
 
-**Edit a file directly in GitHub**
+## Development
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Adding New CMS Collections
 
-**Use GitHub Codespaces**
+1. Create a new collection file in `src/cms/collections/`
+2. Add the collection to the Payload config in `src/cms/payload.config.ts`
+3. Update API services in `src/services/api.ts` to include the new collection
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Customizing Components
 
-## What technologies are used for this project?
+1. Modify component files in `src/components/`
+2. Update the corresponding CMS schemas if needed
+3. Test changes with both static and CMS-driven content
 
-This project is built with:
+## Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Building for Production
 
-## How can I deploy this project?
+1. Build the frontend:
+   ```bash
+   npm run build
+   ```
 
-Simply open [Lovable](https://lovable.dev/projects/07ddc2b0-47c0-45c2-9164-59c3ee44763c) and click on Share -> Publish.
+2. Build the CMS:
+   ```bash
+   npm run build:cms
+   ```
 
-## Can I connect a custom domain to my Lovable project?
+3. Start the production server:
+   ```bash
+   npm run start:cms
+   ```
 
-Yes, you can!
+## Contributing
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add some amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## License
+
+This project is licensed under the MIT License.
+
+## Acknowledgments
+
+- [Payload CMS](https://payloadcms.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vite](https://vitejs.dev/)
+- [Supabase](https://supabase.io/)

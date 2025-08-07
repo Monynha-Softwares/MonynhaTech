@@ -1,9 +1,23 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Globe, Code2 } from "lucide-react";
+import { useSite } from "@/contexts/SiteContext";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { navigation, siteSettings, isLoading } = useSite();
+
+  // Default navigation items to use while loading or if CMS data is not available
+  const defaultNavItems = [
+    { label: "Início", link: "#home" },
+    { label: "Projetos", link: "#projects" },
+    { label: "Docs", link: "#docs" },
+    { label: "Blog", link: "#blog" }
+  ];
+
+  // Use CMS data if available, otherwise use defaults
+  const navItems = navigation?.mainNavigation || defaultNavItems;
+  const siteTitle = siteSettings?.siteTitle || "Monynha Softwares";
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
@@ -16,7 +30,7 @@ export function Header() {
             </div>
             <div>
               <h1 className="text-xl font-space-grotesk font-bold gradient-text">
-                Monynha Softwares
+                {siteTitle}
               </h1>
               <p className="text-xs text-muted-foreground">Futuristic Development</p>
             </div>
@@ -24,18 +38,15 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <a href="#home" className="text-foreground hover:text-primary transition-colors">
-              Início
-            </a>
-            <a href="#projects" className="text-foreground hover:text-primary transition-colors">
-              Projetos
-            </a>
-            <a href="#docs" className="text-foreground hover:text-primary transition-colors">
-              Docs
-            </a>
-            <a href="#blog" className="text-foreground hover:text-primary transition-colors">
-              Blog
-            </a>
+            {navItems.map((item: any) => (
+              <a 
+                key={item.link} 
+                href={item.link} 
+                className="text-foreground hover:text-primary transition-colors"
+              >
+                {item.label}
+              </a>
+            ))}
             <div className="flex items-center space-x-2">
               <Globe className="w-4 h-4 text-muted-foreground" />
               <select className="bg-transparent text-sm focus:outline-none">
@@ -65,18 +76,16 @@ export function Header() {
         {isMenuOpen && (
           <div className="md:hidden mt-4 p-4 glass-card animate-scale-in">
             <nav className="flex flex-col space-y-4">
-              <a href="#home" className="text-foreground hover:text-primary transition-colors">
-                Início
-              </a>
-              <a href="#projects" className="text-foreground hover:text-primary transition-colors">
-                Projetos
-              </a>
-              <a href="#docs" className="text-foreground hover:text-primary transition-colors">
-                Docs
-              </a>
-              <a href="#blog" className="text-foreground hover:text-primary transition-colors">
-                Blog
-              </a>
+              {navItems.map((item: any) => (
+                <a 
+                  key={item.link} 
+                  href={item.link} 
+                  className="text-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ))}
               <Button variant="hero" size="lg" className="mt-4">
                 Explorar
               </Button>
