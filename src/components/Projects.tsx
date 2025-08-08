@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, Star, Users, Code } from "lucide-react";
 import { useProjects } from "@/hooks/useProjects";
+import { useLanguage } from "@/hooks/useLanguage";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
+import { ErrorState } from "@/components/ui/error-state";
 
 const gradients = [
   "from-primary to-primary-glow",
@@ -12,18 +15,19 @@ const gradients = [
 ];
 
 export function Projects() {
-  const { data: projects, isLoading, error } = useProjects();
+  const { data: projects, isLoading, error, refetch } = useProjects();
+  const { language, t } = useLanguage();
 
   if (isLoading) {
     return (
       <section id="projects" className="py-20 relative">
         <div className="container mx-auto px-6">
-          <div className="text-center">
-            <div className="animate-pulse">
-              <div className="h-8 bg-muted rounded w-64 mx-auto mb-4"></div>
-              <div className="h-4 bg-muted rounded w-96 mx-auto"></div>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-space-grotesk font-bold mb-6">
+              {t("Projetos", "Projects")} <span className="gradient-text">{t("Futuristas", "Futuristic")}</span>
+            </h2>
           </div>
+          <LoadingSkeleton />
         </div>
       </section>
     );
@@ -33,9 +37,10 @@ export function Projects() {
     return (
       <section id="projects" className="py-20 relative">
         <div className="container mx-auto px-6">
-          <div className="text-center text-destructive">
-            Erro ao carregar projetos: {error.message}
-          </div>
+          <ErrorState 
+            message={t("Erro ao carregar projetos", "Error loading projects")} 
+            onRetry={() => refetch()}
+          />
         </div>
       </section>
     );
@@ -47,11 +52,13 @@ export function Projects() {
         {/* Section Header */}
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-5xl font-space-grotesk font-bold mb-6">
-            Projetos <span className="gradient-text">Futuristas</span>
+            {t("Projetos", "Projects")} <span className="gradient-text">{t("Futuristas", "Futuristic")}</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Desenvolvemos soluções inovadoras que transformam ideias em realidade digital, 
-            sempre focando em inclusão, performance e experiências extraordinárias.
+            {t(
+              "Desenvolvemos soluções inovadoras que transformam ideias em realidade digital, sempre focando em inclusão, performance e experiências extraordinárias.",
+              "We develop innovative solutions that transform ideas into digital reality, always focusing on inclusion, performance and extraordinary experiences."
+            )}
           </p>
         </div>
 
@@ -73,9 +80,9 @@ export function Projects() {
                 <div className="p-6">
                   {/* Status Badge */}
                   <div className="flex items-center justify-between mb-4">
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-400">
-                      Ativo
-                    </span>
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-400">
+                    {t("Ativo", "Active")}
+                  </span>
                     <div className="flex items-center space-x-4 text-sm text-muted-foreground">
                       <div className="flex items-center space-x-1">
                         <Star className="w-4 h-4" />
@@ -90,12 +97,12 @@ export function Projects() {
 
                   {/* Project Title */}
                   <h3 className="text-2xl font-space-grotesk font-semibold mb-3 group-hover:gradient-text transition-all">
-                    {project.name_pt}
+                    {language === 'pt' ? project.name_pt : (project.name_en || project.name_pt)}
                   </h3>
 
                   {/* Description */}
                   <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {project.description_pt}
+                    {language === 'pt' ? project.description_pt : (project.description_en || project.description_pt)}
                   </p>
 
                   {/* Tech Stack */}
@@ -117,7 +124,7 @@ export function Projects() {
                       <Button variant="outline" size="sm" className="flex-1" asChild>
                         <a href={projectLinks.github} target="_blank" rel="noopener noreferrer">
                           <Github className="w-4 h-4 mr-2" />
-                          Código
+                          {t("Código", "Code")}
                         </a>
                       </Button>
                     )}
@@ -140,7 +147,7 @@ export function Projects() {
         <div className="text-center">
           <Button variant="cyber" size="xl">
             <Code className="w-5 h-5 mr-2" />
-            Ver Todos os Projetos
+            {t("Ver Todos os Projetos", "View All Projects")}
           </Button>
         </div>
       </div>

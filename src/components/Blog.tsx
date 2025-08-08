@@ -2,20 +2,24 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, User, ArrowRight } from "lucide-react";
 import { useBlogPosts } from "@/hooks/useBlogPosts";
+import { useLanguage } from "@/hooks/useLanguage";
+import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
+import { ErrorState } from "@/components/ui/error-state";
 
 export function Blog() {
-  const { data: posts, isLoading, error } = useBlogPosts();
+  const { data: posts, isLoading, error, refetch } = useBlogPosts();
+  const { language, t } = useLanguage();
 
   if (isLoading) {
     return (
       <section className="py-24 bg-gradient-to-br from-background via-muted/30 to-background">
         <div className="container mx-auto px-4">
-          <div className="text-center">
-            <div className="animate-pulse">
-              <div className="h-8 bg-muted rounded w-64 mx-auto mb-4"></div>
-              <div className="h-4 bg-muted rounded w-96 mx-auto"></div>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-4">
+              {t("Blog & Insights", "Blog & Insights")}
+            </h2>
           </div>
+          <LoadingSkeleton />
         </div>
       </section>
     );
@@ -25,9 +29,10 @@ export function Blog() {
     return (
       <section className="py-24 bg-gradient-to-br from-background via-muted/30 to-background">
         <div className="container mx-auto px-4">
-          <div className="text-center text-destructive">
-            Erro ao carregar posts: {error.message}
-          </div>
+          <ErrorState 
+            message={t("Erro ao carregar posts", "Error loading posts")} 
+            onRetry={() => refetch()}
+          />
         </div>
       </section>
     );
@@ -38,10 +43,13 @@ export function Blog() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-4">
-            Blog & Insights
+            {t("Blog & Insights", "Blog & Insights")}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Pensamentos, tutoriais e descobertas sobre tecnologia e desenvolvimento
+            {t(
+              "Pensamentos, tutoriais e descobertas sobre tecnologia e desenvolvimento",
+              "Thoughts, tutorials and discoveries about technology and development"
+            )}
           </p>
         </div>
 
@@ -55,17 +63,17 @@ export function Blog() {
                 <div className="flex items-center gap-2 mb-4">
                   {post.categories?.map((cat: any) => (
                     <Badge key={cat.category.id} variant="secondary" className="text-xs">
-                      {cat.category.title_pt}
+                      {language === 'pt' ? cat.category.title_pt : (cat.category.title_en || cat.category.title_pt)}
                     </Badge>
                   ))}
                 </div>
 
                 <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
-                  {post.title_pt}
+                  {language === 'pt' ? post.title_pt : (post.title_en || post.title_pt)}
                 </h3>
 
                 <p className="text-muted-foreground mb-4 text-sm leading-relaxed line-clamp-3">
-                  {post.content_pt?.substring(0, 150)}...
+                  {((language === 'pt' ? post.content_pt : (post.content_en || post.content_pt)) || '')?.substring(0, 150)}...
                 </p>
 
                 <div className="flex items-center gap-4 text-xs text-muted-foreground mb-6">
@@ -91,7 +99,7 @@ export function Blog() {
                   variant="ghost"
                   className="group-hover:text-primary transition-colors p-0 h-auto"
                 >
-                  Ler mais
+                  {t("Ler mais", "Read more")}
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </article>
@@ -99,13 +107,13 @@ export function Blog() {
           </div>
         ) : (
           <div className="text-center text-muted-foreground">
-            Nenhum post encontrado
+            {t("Nenhum post encontrado", "No posts found")}
           </div>
         )}
 
         <div className="text-center">
           <Button size="lg" className="px-8">
-            Ver Todos os Posts
+            {t("Ver Todos os Posts", "View All Posts")}
             <ArrowRight className="w-5 h-5 ml-2" />
           </Button>
         </div>

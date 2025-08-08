@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Globe, Code2 } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
@@ -25,20 +27,24 @@ export function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <a href="#home" className="text-foreground hover:text-primary transition-colors">
-              Início
+              {t("Início", "Home")}
             </a>
             <a href="#projects" className="text-foreground hover:text-primary transition-colors">
-              Projetos
+              {t("Projetos", "Projects")}
             </a>
             <a href="#docs" className="text-foreground hover:text-primary transition-colors">
-              Docs
+              {t("Docs", "Docs")}
             </a>
             <a href="#blog" className="text-foreground hover:text-primary transition-colors">
-              Blog
+              {t("Blog", "Blog")}
             </a>
             <div className="flex items-center space-x-2">
               <Globe className="w-4 h-4 text-muted-foreground" />
-              <select className="bg-transparent text-sm focus:outline-none">
+              <select 
+                className="bg-transparent text-sm focus:outline-none cursor-pointer"
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as 'pt' | 'en')}
+              >
                 <option value="pt">PT</option>
                 <option value="en">EN</option>
               </select>
@@ -48,7 +54,7 @@ export function Header() {
           {/* CTA Button */}
           <div className="hidden md:block">
             <Button variant="hero" size="lg">
-              Explorar
+              {t("Explorar", "Explore")}
             </Button>
           </div>
 
@@ -66,19 +72,30 @@ export function Header() {
           <div className="md:hidden mt-4 p-4 glass-card animate-scale-in">
             <nav className="flex flex-col space-y-4">
               <a href="#home" className="text-foreground hover:text-primary transition-colors">
-                Início
+                {t("Início", "Home")}
               </a>
               <a href="#projects" className="text-foreground hover:text-primary transition-colors">
-                Projetos
+                {t("Projetos", "Projects")}
               </a>
               <a href="#docs" className="text-foreground hover:text-primary transition-colors">
-                Docs
+                {t("Docs", "Docs")}
               </a>
               <a href="#blog" className="text-foreground hover:text-primary transition-colors">
-                Blog
+                {t("Blog", "Blog")}
               </a>
+              <div className="flex items-center space-x-2 py-2">
+                <Globe className="w-4 h-4 text-muted-foreground" />
+                <select 
+                  className="bg-transparent text-sm focus:outline-none cursor-pointer"
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value as 'pt' | 'en')}
+                >
+                  <option value="pt">PT</option>
+                  <option value="en">EN</option>
+                </select>
+              </div>
               <Button variant="hero" size="lg" className="mt-4">
-                Explorar
+                {t("Explorar", "Explore")}
               </Button>
             </nav>
           </div>
