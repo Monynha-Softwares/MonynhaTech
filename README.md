@@ -60,6 +60,16 @@ git clone -n --depth=1 --filter=tree:0 https://github.com/payloadcms/payload my-
 
 That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
 
+## Environment variables
+
+The project uses the following environment variables in a `.env` file:
+
+- `DATABASE_URI`: Database connection string.
+- `PAYLOAD_SECRET`: Secret used to encrypt JWT tokens.
+- `NEXT_PUBLIC_SERVER_URL`: Base URL of the application (no trailing slash).
+- `CRON_SECRET`: Secret used to authenticate cron jobs.
+- `PREVIEW_SECRET`: Secret used to validate preview requests.
+
 ## How it works
 
 The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
