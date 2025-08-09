@@ -60,6 +60,16 @@ git clone -n --depth=1 --filter=tree:0 https://github.com/payloadcms/payload my-
 
 That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
 
+### Scripts
+
+Common package scripts include:
+
+- `pnpm dev` – start the development server.
+- `pnpm build` – create a production build.
+- `pnpm start` – run the built application.
+- `pnpm lint` – check code style.
+- `pnpm test` – run the test suite.
+
 ## How it works
 
 The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
