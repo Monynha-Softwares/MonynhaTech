@@ -1,6 +1,7 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Zap, Heart } from "lucide-react";
-import heroImage from "@/assets/hero-bg.jpg";
+const heroImage = "/hero-bg.jpg";
 
 export function Hero() {
   return (

@@ -96,6 +96,9 @@ const config = {
       fontFamily: {
         mono: ['var(--font-geist-mono)'],
         sans: ['var(--font-geist-sans)'],
+        inter: ['Inter', 'sans-serif'],
+        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+        'jetbrains-mono': ['JetBrains Mono', 'monospace'],
       },
       keyframes: {
         'accordion-down': {

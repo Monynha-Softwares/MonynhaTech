@@ -30,14 +30,15 @@ export const Pagination: React.FC<{
     <div className={cn('my-12', className)}>
       <PaginationComponent>
         <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              disabled={!hasPrevPage}
-              onClick={() => {
-                router.push(`/posts/page/${page - 1}`)
-              }}
-            />
-          </PaginationItem>
+          {hasPrevPage && (
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => {
+                  router.push(`/posts/page/${page - 1}`)
+                }}
+              />
+            </PaginationItem>
+          )}
 
           {hasExtraPrevPages && (
             <PaginationItem>
@@ -86,14 +87,15 @@ export const Pagination: React.FC<{
             </PaginationItem>
           )}
 
-          <PaginationItem>
-            <PaginationNext
-              disabled={!hasNextPage}
-              onClick={() => {
-                router.push(`/posts/page/${page + 1}`)
-              }}
-            />
-          </PaginationItem>
+          {hasNextPage && (
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => {
+                  router.push(`/posts/page/${page + 1}`)
+                }}
+              />
+            </PaginationItem>
+          )}
         </PaginationContent>
       </PaginationComponent>
     </div>

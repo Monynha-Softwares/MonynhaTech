@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
+'use client';
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
