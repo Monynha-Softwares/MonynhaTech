@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Globe, Code2, Settings } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { Search } from "@/components/Search";
 import { Link } from "react-router-dom";
 
 export function Header() {
@@ -39,6 +40,15 @@ export function Header() {
             <a href="#blog" className="text-foreground hover:text-primary transition-colors">
               {t("Blog", "Blog")}
             </a>
+            
+            {/* Search */}
+            <div className="w-64">
+              <Search 
+                placeholder={t("Buscar...", "Search...")}
+                className="w-full"
+              />
+            </div>
+            
             <div className="flex items-center space-x-2">
               <Globe className="w-4 h-4 text-muted-foreground" />
               <select 

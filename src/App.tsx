@@ -14,6 +14,7 @@ import BlogPosts from "./pages/admin/BlogPosts";
 import Projects from "./pages/admin/Projects";
 import Authors from "./pages/admin/Authors";
 import Categories from "./pages/admin/Categories";
+import SearchResults from "./pages/SearchResults";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/search" element={<SearchResults />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<Dashboard />} />
