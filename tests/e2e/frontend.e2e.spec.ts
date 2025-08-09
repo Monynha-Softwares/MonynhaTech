@@ -17,4 +17,24 @@ test.describe('Frontend', () => {
 
     await expect(heading).toHaveText('Monynha Tech')
   })
+
+  test('can go on posts page', async ({ page }) => {
+    await page.goto('http://localhost:3000/posts')
+
+    await expect(page).toHaveTitle(/Monynha Tech Posts/)
+
+    const heading = page.locator('h1').first()
+
+    await expect(heading).toHaveText('Posts')
+  })
+
+  test('can go on search page', async ({ page }) => {
+    await page.goto('http://localhost:3000/search')
+
+    await expect(page).toHaveTitle(/Monynha Tech Search/)
+
+    const heading = page.locator('h1').first()
+
+    await expect(heading).toHaveText('Search')
+  })
 })
