@@ -70,6 +70,16 @@ The project uses the following environment variables in a `.env` file:
 - `CRON_SECRET`: Secret used to authenticate cron jobs.
 - `PREVIEW_SECRET`: Secret used to validate preview requests.
 
+### Scripts
+
+Common package scripts include:
+
+- `pnpm dev` – start the development server.
+- `pnpm build` – create a production build.
+- `pnpm start` – run the built application.
+- `pnpm lint` – check code style.
+- `pnpm test` – run the test suite.
+
 ## How it works
 
 The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
