@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Globe, Code2 } from "lucide-react";
+import { Menu, X, Globe, Code2, Settings } from "lucide-react";
 import { useLanguage } from "@/hooks/useLanguage";
+import { Link } from "react-router-dom";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,6 +50,11 @@ export function Header() {
                 <option value="en">EN</option>
               </select>
             </div>
+            <Button variant="ghost" size="icon" asChild className="glow-hover">
+              <Link to="/admin" title="Admin Panel">
+                <Settings className="h-4 w-4" />
+              </Link>
+            </Button>
           </nav>
 
           {/* CTA Button */}
@@ -96,6 +102,12 @@ export function Header() {
               </div>
               <Button variant="hero" size="lg" className="mt-4">
                 {t("Explorar", "Explore")}
+              </Button>
+              <Button variant="ghost" size="sm" asChild className="mt-2">
+                <Link to="/admin" className="flex items-center gap-2">
+                  <Settings className="h-4 w-4" />
+                  Admin
+                </Link>
               </Button>
             </nav>
           </div>
