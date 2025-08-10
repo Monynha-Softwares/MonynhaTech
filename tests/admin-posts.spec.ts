@@ -1,5 +1,11 @@
 import { test, expect } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('lang', 'en');
+  });
+});
+
 const SUPABASE_URL = 'https://fineleshydmsyjcvffye.supabase.co';
 
 test('admin can create post', async ({ page }) => {

@@ -2,8 +2,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Zap, Heart } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/hooks/useLanguage";
 
 export function Hero() {
+  const { t } = useLanguage();
   return (
     <section 
       id="home" 
@@ -26,7 +28,9 @@ export function Hero() {
           {/* Hero Badge */}
           <div className="inline-flex items-center glass px-4 py-2 rounded-full mb-8 border border-primary/20">
             <Sparkles className="w-4 h-4 text-primary mr-2" />
-            <span className="text-sm font-medium">Tecnologia Futurista • Open Source</span>
+            <span className="text-sm font-medium">
+              {t("Tecnologia Futurista • Código Aberto", "Futuristic Technology • Open Source")}
+            </span>
             <Heart className="w-4 h-4 text-secondary ml-2" />
           </div>
 
@@ -39,23 +43,28 @@ export function Hero() {
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-            Criamos experiências digitais <span className="gradient-text font-semibold">futuristas</span> e 
-            <span className="gradient-text font-semibold"> inclusivas</span> com tecnologias de ponta. 
-            Desenvolvendo o futuro da web com amor e diversidade.
+            {t(
+              "Criamos experiências digitais ",
+              "We build digital experiences "
+            )}
+            <span className="gradient-text font-semibold">{t("futuristas", "futuristic")}</span>
+            {t(" e", " and")}
+            <span className="gradient-text font-semibold">{t(" inclusivas", " inclusive")}</span>
+            {t(" com tecnologias de ponta. Desenvolvendo o futuro da web com amor e diversidade.", " with cutting-edge technologies. Developing the future of the web with love and diversity.")}
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <Button variant="hero" size="hero" className="group" asChild>
               <Link to="/projects">
-                Explorar Projetos
+                {t("Explorar Projetos", "Explore Projects")}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
             <Button variant="glass" size="hero" asChild>
               <Link to="/docs">
                 <Zap className="w-5 h-5 mr-2" />
-                Ver Documentação
+                {t("Ver Documentação", "View Documentation")}
               </Link>
             </Button>
           </div>
