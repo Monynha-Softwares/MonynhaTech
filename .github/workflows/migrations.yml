@@ -38,7 +38,7 @@ jobs:
       - name: Dry‑run migrations against staging
         env:
           DATABASE_URL: ${{ vars.STAGING_DATABASE_URL }}
-      run: npx -y supabase@latest db push --db-url "$DATABASE_URL" --dry-run
+        run: npx -y supabase@latest db push --db-url "$DATABASE_URL" --dry-run
 
   deploy:
     if: github.event_name == 'push'
@@ -55,5 +55,5 @@ jobs:
       - name: Apply migrations
         env:
           DATABASE_URL: ${{ vars.PRODUCTION_DATABASE_URL }}
-      run: npx -y supabase@latest db push --db-url "$DATABASE_URL" --include-all
+        run: npx -y supabase@latest db push --db-url "$DATABASE_URL" --include-all
 
