@@ -24,6 +24,7 @@ Público‑alvo: agentes Codex e Condex sem contexto prévio do projeto.
 2. Copie `.env.agents.example` para `.env.local` e preencha os valores locais (sem service key no browser).
 3. `pnpm dev` (ou `pnpm build && pnpm start`).
 4. Se houver Supabase local: `supabase start` e aplique migrations `pnpm db:migrate` (ou `supabase db reset`).
+5. Antes de subir o PR, rode `./ci_test_local.sh` (Node 20) para garantir lint, typecheck e testes verdes.
 
 ## 4) Fluxo de Trabalho (DoR → Execução → DoD)
 **Definition of Ready (DoR)**
@@ -87,6 +88,7 @@ Público‑alvo: agentes Codex e Condex sem contexto prévio do projeto.
 - Verificações mínimas em PR: lint → typecheck → tests → build.
 - Pré-visualização automática (deploy preview).
 - Não expor segredos nos logs do CI.
+- `ci_test_local.sh` replica o pipeline (`pnpm install`, lint, typecheck, tests). Use-o antes de enviar commits.
 
 ## 9) Checklist de Entrega (colar no PR)
 - [ ] Funcionalidade concluída e manual de teste incluído
