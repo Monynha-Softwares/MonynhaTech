@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
+import { slugify } from '@/lib/slugify';
 
 type FormValues = {
   slug: string;
@@ -25,13 +26,6 @@ type FormValues = {
   published: boolean;
   published_at?: string | null;
 };
-
-const slugify = (text: string) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-');
 
 export default function NewPost() {
   const form = useForm<FormValues>({

@@ -8,6 +8,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { slugify } from '@/lib/slugify';
 
 interface FormValues {
   slug: string;
@@ -16,13 +17,6 @@ interface FormValues {
   description_pt?: string;
   description_en?: string;
 }
-
-const slugify = (text: string) =>
-  text
-    .toLowerCase()
-    .trim()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-');
 
 export default function EditCategory() {
   const { id } = useParams<{ id: string }>();
