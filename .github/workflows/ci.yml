@@ -13,8 +13,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
       - run: corepack enable
+      - run: npm i -g pnpm
       - run: pnpm install
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm lint
