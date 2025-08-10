@@ -5,6 +5,7 @@ import { useBlogPosts } from "@/hooks/useBlogPosts";
 import { useLanguage } from "@/hooks/useLanguage";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { ErrorState } from "@/components/ui/error-state";
+import { Link } from "react-router-dom";
 
 export function Blog() {
   const { data: posts, isLoading, error, refetch } = useBlogPosts();
@@ -112,9 +113,11 @@ export function Blog() {
         )}
 
         <div className="text-center">
-          <Button size="lg" className="px-8">
-            {t("Ver Todos os Posts", "View All Posts")}
-            <ArrowRight className="w-5 h-5 ml-2" />
+          <Button size="lg" className="px-8" asChild>
+            <Link to="/blog">
+              {t("Ver Todos os Posts", "View All Posts")}
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Link>
           </Button>
         </div>
       </div>
