@@ -99,9 +99,12 @@ export function Blog() {
                 <Button
                   variant="ghost"
                   className="group-hover:text-primary transition-colors p-0 h-auto"
+                  asChild
                 >
-                  {t("Ler mais", "Read more")}
-                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  <Link to={`/blog/${post.slug}`}>
+                    {t("Ler mais", "Read more")}
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </Button>
               </article>
             ))}
