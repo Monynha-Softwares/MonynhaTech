@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useBlogPosts } from '@/hooks/useBlogPosts';
+import { useAllBlogPosts } from '@/hooks/useAllBlogPosts';
 import { useAuthors } from '@/hooks/useAuthors';
 import { useCategories } from '@/hooks/useCategories';
 import { Button } from '@/components/ui/button';
@@ -11,7 +10,7 @@ import { Plus, Edit, Trash2, Eye, Calendar, FileText } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function BlogPosts() {
-  const { data: posts, isLoading, error, refetch } = useBlogPosts();
+  const { data: posts, isLoading, error, refetch } = useAllBlogPosts();
   const { data: authors } = useAuthors();
   const { data: categories } = useCategories();
 
