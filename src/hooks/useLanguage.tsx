@@ -11,11 +11,25 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>('pt');
+  const [language, setLanguage] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('lang');
+      if (saved === 'pt' || saved === 'en') return saved;
+    }
+    return 'pt';
+  });
 
   const t = (ptText: string, enText?: string) => {
     return language === 'pt' ? ptText : (enText || ptText);
   };
+
+  // Persist and sync <html lang>
+  if (typeof document !== 'undefined') {
+    document.documentElement.lang = language;
+  }
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('lang', language);
+  }
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>

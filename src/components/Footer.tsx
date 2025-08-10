@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Github, Twitter, Linkedin, Mail, Heart, Code2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Footer() {
   return (
@@ -46,11 +47,11 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-space-grotesk font-semibold mb-6">Navegação</h4>
             <ul className="space-y-3">
-              <li><a href="#home" className="text-muted-foreground hover:text-primary transition-colors">Início</a></li>
-              <li><a href="#projects" className="text-muted-foreground hover:text-primary transition-colors">Projetos</a></li>
-              <li><a href="#docs" className="text-muted-foreground hover:text-primary transition-colors">Documentação</a></li>
-              <li><a href="#blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</a></li>
-              <li><a href="#community" className="text-muted-foreground hover:text-primary transition-colors">Comunidade</a></li>
+              <li><Link to="/" className="text-muted-foreground hover:text-primary transition-colors">Início</Link></li>
+              <li><Link to="/projects" className="text-muted-foreground hover:text-primary transition-colors">Projetos</Link></li>
+              <li><Link to="/docs" className="text-muted-foreground hover:text-primary transition-colors">Documentação</Link></li>
+              <li><Link to="/blog" className="text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
+              <li><a href="/" className="text-muted-foreground hover:text-primary transition-colors">Comunidade</a></li>
             </ul>
           </div>
 
@@ -58,11 +59,11 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-space-grotesk font-semibold mb-6">Recursos</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">API Docs</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">GitHub</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Contribuir</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Roadmap</a></li>
-              <li><a href="#" className="text-muted-foreground hover:text-primary transition-colors">Status</a></li>
+              <li><Link to="/docs" className="text-muted-foreground hover:text-primary transition-colors">API Docs</Link></li>
+              <li><a href="https://twitter.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">GitHub</a></li>
+              <li><a href="https://github.com" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">Contribuir</a></li>
+              <li><a href="https://github.com/roadmap" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">Roadmap</a></li>
+              <li><a href="https://www.githubstatus.com/" target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-primary transition-colors">Status</a></li>
             </ul>
           </div>
         </div>

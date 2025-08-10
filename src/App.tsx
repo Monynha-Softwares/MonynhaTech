@@ -15,6 +15,12 @@ import Projects from "./pages/admin/Projects";
 import Authors from "./pages/admin/Authors";
 import Categories from "./pages/admin/Categories";
 import SearchResults from "./pages/SearchResults";
+import BlogIndex from "./pages/BlogIndex";
+import BlogPost from "./pages/BlogPost";
+import ProjectsIndex from "./pages/ProjectsIndex";
+import ProjectDetail from "./pages/ProjectDetail";
+import DocsIndex from "./pages/DocsIndex";
+import DocPage from "./pages/DocPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +35,12 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/search" element={<SearchResults />} />
+              <Route path="/blog" element={<BlogIndex />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/projects" element={<ProjectsIndex />} />
+              <Route path="/projects/:slug" element={<ProjectDetail />} />
+              <Route path="/docs" element={<DocsIndex />} />
+              <Route path="/docs/:slug" element={<DocPage />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<Dashboard />} />

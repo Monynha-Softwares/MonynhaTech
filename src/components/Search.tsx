@@ -112,13 +112,14 @@ export function Search({ className, placeholder, showResults = true }: SearchPro
   };
 
   return (
-    <div ref={searchRef} className={`relative ${className}`}>
+    <div ref={searchRef} className={`relative ${className}`} role="search" aria-label={t('Busca do site', 'Site search')}>
       <div className="relative">
-        <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" aria-hidden="true" />
         <Input
           ref={inputRef}
           type="text"
           placeholder={placeholder || t('Buscar...', 'Search...')}
+          aria-label={t('Buscar no site', 'Search the site')}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}

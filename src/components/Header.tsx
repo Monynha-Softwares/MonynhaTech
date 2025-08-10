@@ -11,6 +11,7 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass border-b border-border/50">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-background text-foreground px-3 py-2 rounded">{t("Pular para o conteúdo", "Skip to content")}</a>
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -27,19 +28,19 @@ export function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#home" className="text-foreground hover:text-primary transition-colors">
+          <nav className="hidden md:flex items-center space-x-8" aria-label="Primary">
+            <Link to="/" className="text-foreground hover:text-primary transition-colors">
               {t("Início", "Home")}
-            </a>
-            <a href="#projects" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/projects" className="text-foreground hover:text-primary transition-colors">
               {t("Projetos", "Projects")}
-            </a>
-            <a href="#docs" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/docs" className="text-foreground hover:text-primary transition-colors">
               {t("Docs", "Docs")}
-            </a>
-            <a href="#blog" className="text-foreground hover:text-primary transition-colors">
+            </Link>
+            <Link to="/blog" className="text-foreground hover:text-primary transition-colors">
               {t("Blog", "Blog")}
-            </a>
+            </Link>
             
             {/* Search */}
             <div className="w-64">
@@ -50,10 +51,11 @@ export function Header() {
             </div>
             
             <div className="flex items-center space-x-2">
-              <Globe className="w-4 h-4 text-muted-foreground" />
+              <Globe className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
               <select 
                 className="bg-transparent text-sm focus:outline-none cursor-pointer"
                 value={language}
+                aria-label={t("Selecionar idioma", "Select language")}
                 onChange={(e) => setLanguage(e.target.value as 'pt' | 'en')}
               >
                 <option value="pt">PT</option>
@@ -62,15 +64,15 @@ export function Header() {
             </div>
             <Button variant="ghost" size="icon" asChild className="glow-hover">
               <Link to="/admin" title="Admin Panel">
-                <Settings className="h-4 w-4" />
+                <Settings className="h-4 w-4" aria-hidden="true" />
               </Link>
             </Button>
           </nav>
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button variant="hero" size="lg">
-              {t("Explorar", "Explore")}
+            <Button variant="hero" size="lg" asChild>
+              <Link to="/projects">{t("Explorar", "Explore")}</Link>
             </Button>
           </div>
 
@@ -86,36 +88,37 @@ export function Header() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 p-4 glass-card animate-scale-in">
-            <nav className="flex flex-col space-y-4">
-              <a href="#home" className="text-foreground hover:text-primary transition-colors">
+            <nav className="flex flex-col space-y-4" aria-label="Mobile Primary">
+              <Link to="/" className="text-foreground hover:text-primary transition-colors">
                 {t("Início", "Home")}
-              </a>
-              <a href="#projects" className="text-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link to="/projects" className="text-foreground hover:text-primary transition-colors">
                 {t("Projetos", "Projects")}
-              </a>
-              <a href="#docs" className="text-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link to="/docs" className="text-foreground hover:text-primary transition-colors">
                 {t("Docs", "Docs")}
-              </a>
-              <a href="#blog" className="text-foreground hover:text-primary transition-colors">
+              </Link>
+              <Link to="/blog" className="text-foreground hover:text-primary transition-colors">
                 {t("Blog", "Blog")}
-              </a>
+              </Link>
               <div className="flex items-center space-x-2 py-2">
-                <Globe className="w-4 h-4 text-muted-foreground" />
+                <Globe className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
                 <select 
                   className="bg-transparent text-sm focus:outline-none cursor-pointer"
                   value={language}
+                  aria-label={t("Selecionar idioma", "Select language")}
                   onChange={(e) => setLanguage(e.target.value as 'pt' | 'en')}
                 >
                   <option value="pt">PT</option>
                   <option value="en">EN</option>
                 </select>
               </div>
-              <Button variant="hero" size="lg" className="mt-4">
-                {t("Explorar", "Explore")}
+              <Button variant="hero" size="lg" className="mt-4" asChild>
+                <Link to="/projects">{t("Explorar", "Explore")}</Link>
               </Button>
               <Button variant="ghost" size="sm" asChild className="mt-2">
                 <Link to="/admin" className="flex items-center gap-2">
-                  <Settings className="h-4 w-4" />
+                  <Settings className="h-4 w-4" aria-hidden="true" />
                   Admin
                 </Link>
               </Button>
