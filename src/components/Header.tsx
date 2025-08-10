@@ -17,7 +17,7 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center glow">
-              <Code2 className="w-6 h-6 text-white" />
+              <Code2 className="w-6 h-6 text-white" aria-hidden="true" />
             </div>
             <div>
               <h1 className="text-xl font-space-grotesk font-bold gradient-text">
@@ -78,16 +78,23 @@ export function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? t('Fechar menu', 'Close menu') : t('Abrir menu', 'Open menu')}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMenuOpen ? (
+              <X className="w-6 h-6" aria-hidden="true" />
+            ) : (
+              <Menu className="w-6 h-6" aria-hidden="true" />
+            )}
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 p-4 glass-card animate-scale-in">
+          <div id="mobile-menu" className="md:hidden mt-4 p-4 glass-card animate-scale-in">
             <nav className="flex flex-col space-y-4" aria-label="Mobile Primary">
               <Link to="/" className="text-foreground hover:text-primary transition-colors">
                 {t("Início", "Home")}
