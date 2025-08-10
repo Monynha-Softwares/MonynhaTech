@@ -1,9 +1,11 @@
 import { useAllBlogPosts } from '@/hooks/useAllBlogPosts';
+import type { BlogPost } from '@/hooks/useAllBlogPosts';
 import { useAuthors } from '@/hooks/useAuthors';
 import { useCategories } from '@/hooks/useCategories';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
 import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, Eye, Calendar, FileText } from 'lucide-react';
@@ -11,11 +13,35 @@ import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export default function BlogPosts() {
   const { data: posts, isLoading, error, refetch } = useAllBlogPosts();
   const { data: authors } = useAuthors();
   const { data: categories } = useCategories();
+
+  const queryClient = useQueryClient();
+  const { mutate: togglePublish } = useMutation<BlogPost, Error, BlogPost>({
+    mutationFn: async (post: BlogPost) => {
+      const published = !post.published;
+      const published_at = published ? new Date().toISOString() : null;
+      const { error } = await supabase
+        .from('blog_posts')
+        .update({ published, published_at })
+        .eq('id', post.id);
+      if (error) throw error;
+      return { ...post, published, published_at };
+    },
+    onSuccess: (updatedPost) => {
+      queryClient.setQueryData<BlogPost[]>(['all-blog-posts'], (old) =>
+        old ? old.map((p) => (p.id === updatedPost.id ? updatedPost : p)) : []
+      );
+      toast({ title: updatedPost.published ? 'Post published' : 'Post unpublished' });
+    },
+    onError: () => {
+      toast({ title: 'Failed to update post', variant: 'destructive' });
+    },
+  });
 
   const handleDelete = async (id: string) => {
     try {
@@ -105,9 +131,16 @@ export default function BlogPosts() {
                     </div>
                   )}
                   
-                  <Badge variant={post.published ? "default" : "secondary"}>
-                    {post.published ? 'Published' : 'Draft'}
-                  </Badge>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={post.published ? "default" : "secondary"}>
+                      {post.published ? 'Published' : 'Draft'}
+                    </Badge>
+                    <Switch
+                      aria-label="Toggle published"
+                      checked={post.published}
+                      onCheckedChange={() => togglePublish(post)}
+                    />
+                  </div>
                 </div>
                 
                 {postCategories.length > 0 && (
