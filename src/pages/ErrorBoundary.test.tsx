@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, afterAll, beforeAll } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { LanguageProvider, useLanguage } from '@/hooks/useLanguage';
@@ -38,6 +38,14 @@ const renderWithLang = (lang: 'pt' | 'en') => {
     </LanguageProvider>
   );
 };
+
+beforeAll(() => {
+  vi.spyOn(console, 'error').mockImplementation(() => {});
+});
+
+afterAll(() => {
+  (console.error as any).mockRestore();
+});
 
 describe('ErrorBoundary', () => {
   it('shows Portuguese fallback', async () => {
