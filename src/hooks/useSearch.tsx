@@ -9,6 +9,7 @@ interface SearchResult {
   slug: string;
   url: string;
   published_at?: string;
+  score: number;
 }
 
 export function useSearch() {
@@ -26,27 +27,36 @@ export function useSearch() {
     setError(null);
 
     try {
-      const searchTerm = `%${query.toLowerCase()}%`;
-      
+      const escapedQuery = query.replace(/'/g, "''");
+
       // Search blog posts
       const { data: blogPosts } = await supabase
         .from('blog_posts')
-        .select('id, title_pt, title_en, content_pt, content_en, slug, published_at')
+        .select(`id, title_pt, title_en, content_pt, content_en, slug, published_at,
+          score:ts_rank_cd(search_vector, websearch_to_tsquery('simple', '${escapedQuery}'))`)
         .eq('published', true)
-        .or(`title_pt.ilike.${searchTerm},title_en.ilike.${searchTerm},content_pt.ilike.${searchTerm},content_en.ilike.${searchTerm}`);
+        .textSearch('search_vector', query, { type: 'websearch', config: 'simple' })
+        .order('score', { ascending: false })
+        .limit(10);
 
       // Search projects
       const { data: projects } = await supabase
         .from('projects')
-        .select('id, name_pt, name_en, description_pt, description_en, slug')
-        .or(`name_pt.ilike.${searchTerm},name_en.ilike.${searchTerm},description_pt.ilike.${searchTerm},description_en.ilike.${searchTerm}`);
+        .select(`id, name_pt, name_en, description_pt, description_en, slug,
+          score:ts_rank_cd(search_vector, websearch_to_tsquery('simple', '${escapedQuery}'))`)
+        .textSearch('search_vector', query, { type: 'websearch', config: 'simple' })
+        .order('score', { ascending: false })
+        .limit(10);
 
       // Search docs
       const { data: docs } = await supabase
         .from('docs')
-        .select('id, title_pt, title_en, content_pt, content_en, slug')
+        .select(`id, title_pt, title_en, content_pt, content_en, slug,
+          score:ts_rank_cd(search_vector, websearch_to_tsquery('simple', '${escapedQuery}'))`)
         .eq('published', true)
-        .or(`title_pt.ilike.${searchTerm},title_en.ilike.${searchTerm},content_pt.ilike.${searchTerm},content_en.ilike.${searchTerm}`);
+        .textSearch('search_vector', query, { type: 'websearch', config: 'simple' })
+        .order('score', { ascending: false })
+        .limit(10);
 
       const searchResults: SearchResult[] = [
         ...(blogPosts || []).map(post => ({
@@ -57,6 +67,7 @@ export function useSearch() {
           slug: post.slug,
           url: `/blog/${post.slug}`,
           published_at: post.published_at,
+          score: post.score ?? 0,
         })),
         ...(projects || []).map(project => ({
           id: project.id,
@@ -65,6 +76,7 @@ export function useSearch() {
           type: 'project' as const,
           slug: project.slug,
           url: `/projects/${project.slug}`,
+          score: project.score ?? 0,
         })),
         ...(docs || []).map(doc => ({
           id: doc.id,
@@ -73,8 +85,11 @@ export function useSearch() {
           type: 'doc' as const,
           slug: doc.slug,
           url: `/docs/${doc.slug}`,
+          score: doc.score ?? 0,
         })),
-      ];
+      ]
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10);
 
       setResults(searchResults);
     } catch (err) {
