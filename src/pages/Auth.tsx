@@ -7,9 +7,11 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Loader2, Lock, Mail } from 'lucide-react';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function Auth() {
   const { user, loading, signIn, signUp } = useAuth();
+  const { t } = useLanguage();
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +41,11 @@ export default function Auth() {
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success(isLogin ? 'Signed in successfully!' : 'Account created! Check your email for verification.');
+        toast.success(
+          isLogin
+            ? t('Login realizado com sucesso!', 'Signed in successfully!')
+            : t('Conta criada! Verifique seu email para confirmação.', 'Account created! Check your email for verification.')
+        );
       }
     } finally {
       setIsSubmitting(false);
@@ -56,10 +62,14 @@ export default function Auth() {
             <Lock className="h-6 w-6 text-primary" />
           </div>
           <CardTitle className="text-2xl font-space-grotesk gradient-text">
-            {isLogin ? 'Admin Login' : 'Create Account'}
+            {isLogin
+              ? t('Entrar no Painel', 'Admin Login')
+              : t('Criar Conta', 'Create Account')}
           </CardTitle>
           <CardDescription>
-            {isLogin ? 'Sign in to access the admin panel' : 'Create your admin account'}
+            {isLogin
+              ? t('Faça login para acessar o painel admin', 'Sign in to access the admin panel')
+              : t('Crie sua conta de administrador', 'Create your admin account')}
           </CardDescription>
         </CardHeader>
         
@@ -72,7 +82,7 @@ export default function Auth() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="admin@example.com"
+                  placeholder={t('admin@exemplo.com', 'admin@example.com')}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10"
@@ -82,7 +92,7 @@ export default function Auth() {
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t('Senha', 'Password')}</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -103,7 +113,7 @@ export default function Auth() {
               disabled={isSubmitting}
             >
               {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {isLogin ? 'Sign In' : 'Create Account'}
+              {isLogin ? t('Entrar', 'Sign In') : t('Criar Conta', 'Create Account')}
             </Button>
           </form>
           
@@ -113,7 +123,9 @@ export default function Auth() {
               onClick={() => setIsLogin(!isLogin)}
               className="text-sm text-muted-foreground hover:text-primary transition-colors"
             >
-              {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+              {isLogin
+                ? t('Não tem uma conta? Cadastre-se', "Don't have an account? Sign up")
+                : t('Já tem uma conta? Entre', 'Already have an account? Sign in')}
             </button>
           </div>
         </CardContent>
