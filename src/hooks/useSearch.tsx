@@ -32,8 +32,20 @@ export function useSearch() {
       // Search blog posts
       const { data: blogPosts } = await supabase
         .from('blog_posts')
-        .select(`id, title_pt, title_en, content_pt, content_en, slug, published_at,
-          score:ts_rank_cd(search_vector, websearch_to_tsquery('simple', '${escapedQuery}'))`)
+        .select(`
+          id,
+          title_pt,
+          title_en,
+          content_pt,
+          content_en,
+          slug,
+          published_at,
+          author:authors(name),
+          categories:blog_posts_categories(
+            category:categories(slug, title_pt, title_en)
+          ),
+          score:ts_rank_cd(search_vector, websearch_to_tsquery('simple', '${escapedQuery}'))
+        `)
         .eq('published', true)
         .textSearch('search_vector', query, { type: 'websearch', config: 'simple' })
         .order('score', { ascending: false })
