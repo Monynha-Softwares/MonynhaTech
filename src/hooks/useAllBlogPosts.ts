@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 
-type BlogPost = Database['public']['Tables']['blog_posts']['Row'] & {
+export type BlogPost = Database['public']['Tables']['blog_posts']['Row'] & {
   author: Database['public']['Tables']['authors']['Row'] | null;
   categories: {
     category: Database['public']['Tables']['categories']['Row'];
