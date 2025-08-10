@@ -757,5 +757,5 @@ export {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
-  useSidebar,
 }
+export { useSidebar } // eslint-disable-line react-refresh/only-export-components
