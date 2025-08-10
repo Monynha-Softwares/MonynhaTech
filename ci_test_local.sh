@@ -34,7 +34,8 @@ pnpm test:e2e
 # Dry run migrations if DATABASE_URL is set.
 if [[ -n "${DATABASE_URL:-}" ]]; then
   echo "[ci_test_local] Performing migration dry‑run…" >&2
-  supabase db push --db-url "$DATABASE_URL" --dry-run
+  npx -y supabase@latest db push --db-url "$DATABASE_URL" --dry-run
 fi
 
 echo "[ci_test_local] All local CI checks completed successfully." >&2
+
