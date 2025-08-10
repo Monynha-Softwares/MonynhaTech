@@ -1,0 +1,64 @@
+name: Database Migrations
+
+# This workflow validates and applies Supabase migrations in the
+# repository.  It runs two different jobs depending on the event:
+#
+# * On pull requests, it performs a dry run of the migrations
+#   against a staging database to verify there are no breaking
+#   changes.  The staging connection string should be stored in
+#   `STAGING_DATABASE_URL` within your repository vars.
+#
+# * On pushes to the `main` branch, it applies the migrations to
+#   production using the `PRODUCTION_DATABASE_URL` secret.  This job
+#   can be protected by an environment that requires manual approval
+#   to promote migrations into production.
+
+on:
+  pull_request:
+    paths:
+      - 'supabase/migrations/**'
+      - '.github/workflows/migrations.yml'
+      - 'scripts/migrate.sh'
+  push:
+    branches:
+      - main
+    paths:
+      - 'supabase/migrations/**'
+
+jobs:
+  validate:
+    if: github.event_name == 'pull_request'
+    name: Validate Migrations (Dry Run)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Supabase CLI
+        run: npm install -g supabase@latest
+      - name: Dry‑run migrations against staging
+        env:
+          DATABASE_URL: ${{ vars.STAGING_DATABASE_URL }}
+        run: |
+          supabase db push --db-url "$DATABASE_URL" --dry-run
+
+  deploy:
+    if: github.event_name == 'push'
+    name: Apply Migrations to Production
+    runs-on: ubuntu-latest
+    env:
+      # name: production
+      url: ${{ vars.PRODUCTION_DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Supabase CLI
+        run: npm install -g supabase@latest
+      - name: Apply migrations
+        env:
+          DATABASE_URL: ${{ vars.PRODUCTION_DATABASE_URL }}
+        run: |
+          supabase db push --db-url "$DATABASE_URL" --include-all
