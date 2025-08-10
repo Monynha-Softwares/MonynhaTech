@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 interface SEOProps {
   title?: string;
@@ -22,7 +22,7 @@ const DEFAULT_SEO = {
 };
 
 export function useSEO(seoProps: SEOProps = {}) {
-  const seo = { ...DEFAULT_SEO, ...seoProps };
+  const seo = useMemo(() => ({ ...DEFAULT_SEO, ...seoProps }), [seoProps]);
 
   useEffect(() => {
     // Update document title
