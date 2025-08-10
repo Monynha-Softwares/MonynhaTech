@@ -32,13 +32,13 @@ export default function SearchResults() {
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'blog_post':
-        return <FileText className="h-5 w-5 text-primary" />;
+        return <FileText className="h-5 w-5 text-primary" aria-hidden="true" />;
       case 'project':
-        return <FolderOpen className="h-5 w-5 text-secondary" />;
+        return <FolderOpen className="h-5 w-5 text-secondary" aria-hidden="true" />;
       case 'doc':
-        return <BookOpen className="h-5 w-5 text-accent" />;
+        return <BookOpen className="h-5 w-5 text-accent" aria-hidden="true" />;
       default:
-        return <SearchIcon className="h-5 w-5" />;
+        return <SearchIcon className="h-5 w-5" aria-hidden="true" />;
     }
   };
 
@@ -76,7 +76,7 @@ export default function SearchResults() {
           <div className="flex items-center gap-4 mb-6">
             <Button variant="ghost" size="sm" asChild>
               <Link to="/" className="flex items-center gap-2">
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4" aria-hidden="true" />
                 {t('Voltar', 'Back')}
               </Link>
             </Button>
@@ -164,7 +164,7 @@ export default function SearchResults() {
             ) : (
               <Card className="glass-card text-center py-12">
                 <CardContent>
-                  <SearchIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <SearchIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4" aria-hidden="true" />
                   <h3 className="text-xl font-semibold mb-2">
                     {t('Nenhum resultado encontrado', 'No results found')}
                   </h3>
@@ -187,7 +187,7 @@ export default function SearchResults() {
           <div className="max-w-2xl mx-auto">
             <Card className="glass-card text-center py-12">
               <CardContent>
-                <SearchIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <SearchIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4" aria-hidden="true" />
                 <h3 className="text-xl font-semibold mb-2">
                   {t('Digite algo para buscar', 'Type something to search')}
                 </h3>

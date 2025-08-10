@@ -27,11 +27,11 @@ export function Hero() {
         <div className="max-w-4xl mx-auto animate-fade-in">
           {/* Hero Badge */}
           <div className="inline-flex items-center glass px-4 py-2 rounded-full mb-8 border border-primary/20">
-            <Sparkles className="w-4 h-4 text-primary mr-2" />
+            <Sparkles className="w-4 h-4 text-primary mr-2" aria-hidden="true" />
             <span className="text-sm font-medium">
               {t("Tecnologia Futurista • Código Aberto", "Futuristic Technology • Open Source")}
             </span>
-            <Heart className="w-4 h-4 text-secondary ml-2" />
+            <Heart className="w-4 h-4 text-secondary ml-2" aria-hidden="true" />
           </div>
 
           {/* Main Heading */}
@@ -58,12 +58,12 @@ export function Hero() {
             <Button variant="hero" size="hero" className="group" asChild>
               <Link to="/projects">
                 {t("Explorar Projetos", "Explore Projects")}
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
               </Link>
             </Button>
             <Button variant="glass" size="hero" asChild>
               <Link to="/docs">
-                <Zap className="w-5 h-5 mr-2" />
+                <Zap className="w-5 h-5 mr-2" aria-hidden="true" />
                 {t("Ver Documentação", "View Documentation")}
               </Link>
             </Button>
