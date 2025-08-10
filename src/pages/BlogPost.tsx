@@ -9,6 +9,7 @@ import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Comments } from '@/components/Comments';
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -63,6 +64,7 @@ export default function BlogPost() {
                 <div dangerouslySetInnerHTML={{ __html: (language === 'pt' ? post.content_pt : (post.content_en || post.content_pt)) || '' }} />
               </CardContent>
             </Card>
+            <Comments postId={post.id} />
             <div className="mt-8">
               <Button variant="outline" asChild>
                 <Link to="/blog">{t('Voltar ao blog', 'Back to blog')}</Link>
