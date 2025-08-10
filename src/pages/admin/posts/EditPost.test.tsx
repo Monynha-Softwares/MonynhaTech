@@ -11,20 +11,12 @@ vi.stubGlobal('ResizeObserver', class {
 vi.mock('@/hooks/useAuthors', () => ({ useAuthors: () => ({ data: [{ id: 'a1', name: 'Author' }] }) }));
 vi.mock('@/hooks/useCategories', () => ({ useCategories: () => ({ data: [{ id: 'c1', title_pt: 'Cat' }] }) }));
 
-let fromMock: any;
 const updateMock = vi.fn(() => ({ eq: () => Promise.resolve({ error: null }) }));
 const deleteMock = vi.fn(() => ({ eq: () => Promise.resolve({}) }));
 const deleteCats = vi.fn(() => ({ eq: () => Promise.resolve({}) }));
 const insertCats = vi.fn().mockResolvedValue({});
 
-vi.mock('@/integrations/supabase/client', () => ({
-  supabase: {
-    from: (...args: any[]) => fromMock(...args),
-    storage: { from: vi.fn(() => ({ upload: vi.fn().mockResolvedValue({ data: {}, error: null }) })) },
-  },
-}));
-
-fromMock = (table: string) => {
+const fromMock = (table: string) => {
   if (table === 'blog_posts') {
     return {
       select: () => ({
@@ -59,6 +51,13 @@ fromMock = (table: string) => {
   }
   return {} as any;
 };
+
+vi.mock('@/integrations/supabase/client', () => ({
+  supabase: {
+    from: (...args: any[]) => fromMock(...args),
+    storage: { from: vi.fn(() => ({ upload: vi.fn().mockResolvedValue({ data: {}, error: null }) })) },
+  },
+}));
 
 const navigateMock = vi.fn();
 vi.mock('react-router-dom', () => ({

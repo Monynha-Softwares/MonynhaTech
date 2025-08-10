@@ -15,7 +15,11 @@ const insertPost = vi.fn(() => ({
   select: () => ({ single: () => Promise.resolve({ data: { id: '1' }, error: null }) }),
 }));
 const insertCategories = vi.fn(() => Promise.resolve({ data: null, error: null }));
-let fromMock: any;
+const fromMock = (table: string) => {
+  if (table === 'blog_posts') return { insert: insertPost };
+  if (table === 'blog_posts_categories') return { insert: insertCategories };
+  return {} as any;
+};
 
 vi.mock('@/integrations/supabase/client', () => ({
   supabase: {
@@ -23,12 +27,6 @@ vi.mock('@/integrations/supabase/client', () => ({
     storage: { from: vi.fn(() => ({ upload: vi.fn().mockResolvedValue({ data: {}, error: null }) })) },
   },
 }));
-
-fromMock = (table: string) => {
-  if (table === 'blog_posts') return { insert: insertPost };
-  if (table === 'blog_posts_categories') return { insert: insertCategories };
-  return {} as any;
-};
 
 const navigateMock = vi.fn();
 vi.mock('react-router-dom', () => ({ useNavigate: () => navigateMock }));
