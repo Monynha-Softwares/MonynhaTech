@@ -1,21 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, Zap, Heart } from "lucide-react";
-import heroImage from "@/assets/hero-bg.jpg";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/hooks/useLanguage";
 
 export function Hero() {
   const { t } = useLanguage();
   return (
-    <section 
-      id="home" 
-      className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
-      style={{ 
-        backgroundImage: `linear-gradient(rgba(35, 39, 42, 0.8), rgba(35, 39, 42, 0.9)), url(${heroImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}
+    <section
+      id="home"
+      className="hero-background min-h-screen flex items-center justify-center relative overflow-hidden pt-20"
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0">
