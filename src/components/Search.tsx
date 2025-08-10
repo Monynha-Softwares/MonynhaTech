@@ -88,13 +88,13 @@ export function Search({ className, placeholder, showResults = true }: SearchPro
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'blog_post':
-        return <FileText className="h-4 w-4" aria-hidden="true" />;
+        return <FileText className="h-4 w-4" />;
       case 'project':
-        return <FolderOpen className="h-4 w-4" aria-hidden="true" />;
+        return <FolderOpen className="h-4 w-4" />;
       case 'doc':
-        return <BookOpen className="h-4 w-4" aria-hidden="true" />;
+        return <BookOpen className="h-4 w-4" />;
       default:
-        return <SearchIcon className="h-4 w-4" aria-hidden="true" />;
+        return <SearchIcon className="h-4 w-4" />;
     }
   };
 
@@ -132,10 +132,8 @@ export function Search({ className, placeholder, showResults = true }: SearchPro
             size="sm"
             onClick={handleClear}
             className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
-            aria-label={t('Limpar busca', 'Clear search')}
-            title={t('Limpar busca', 'Clear search')}
           >
-            <X className="h-3 w-3" aria-hidden="true" />
+            <X className="h-3 w-3" />
           </Button>
         )}
       </div>
@@ -146,19 +144,18 @@ export function Search({ className, placeholder, showResults = true }: SearchPro
           <CardContent className="p-0">
             {isLoading ? (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-6 w-6 animate-spin text-primary" aria-hidden="true" />
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
                 <span className="ml-2 text-sm text-muted-foreground">
                   {t('Buscando...', 'Searching...')}
                 </span>
               </div>
             ) : results.length > 0 ? (
-              <div className="max-h-80 overflow-y-auto" role="listbox">
+              <div className="max-h-80 overflow-y-auto">
                 {results.map((result) => (
                   <button
                     key={result.id}
                     onClick={() => handleResultClick(result)}
-                    className="w-full text-left p-4 hover:bg-accent/50 border-b border-border/30 last:border-0 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                    role="option"
+                    className="w-full text-left p-4 hover:bg-accent/50 border-b border-border/30 last:border-0 transition-colors"
                   >
                     <div className="flex items-start gap-3">
                       <div className="text-muted-foreground mt-1">
@@ -195,7 +192,7 @@ export function Search({ className, placeholder, showResults = true }: SearchPro
               </div>
             ) : query ? (
               <div className="text-center py-8">
-                <SearchIcon className="h-8 w-8 text-muted-foreground mx-auto mb-2" aria-hidden="true" />
+                <SearchIcon className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
                 <p className="text-sm text-muted-foreground">
                   {t('Nenhum resultado encontrado', 'No results found')}
                 </p>
