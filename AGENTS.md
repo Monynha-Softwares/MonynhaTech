@@ -103,3 +103,4 @@ Público‑alvo: agentes Codex e Condex sem contexto prévio do projeto.
 - ESLint/Prettier, imports ordenados, componentes puros quando possível.
 - Nomes descritivos para arquivos, funções e migrações.
 - Evitar duplicação; extrair utilitários em `src/lib`.
+- Nunca adicione arquivos .png ou outros arquivos binários nos PR pois não o a plataforma GitHub não aceitará PR com binários. Ficheiros .svg podem ser adicionados.
