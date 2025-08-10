@@ -11,6 +11,8 @@ import Auth from "./pages/Auth";
 import AdminLayout from "./components/admin/AdminLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import BlogPosts from "./pages/admin/BlogPosts";
+import NewPost from "./pages/admin/posts/NewPost";
+import EditPost from "./pages/admin/posts/EditPost";
 import Projects from "./pages/admin/Projects";
 import Authors from "./pages/admin/Authors";
 import Categories from "./pages/admin/Categories";
@@ -47,7 +49,11 @@ const App = () => (
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/admin" element={<AdminLayout />}> 
                   <Route index element={<Dashboard />} />
-                  <Route path="posts" element={<BlogPosts />} />
+                  <Route path="posts">
+                    <Route index element={<BlogPosts />} />
+                    <Route path="new" element={<NewPost />} />
+                    <Route path=":id/edit" element={<EditPost />} />
+                  </Route>
                   <Route path="projects" element={<Projects />} />
                   <Route path="authors" element={<Authors />} />
                   <Route path="categories" element={<Categories />} />

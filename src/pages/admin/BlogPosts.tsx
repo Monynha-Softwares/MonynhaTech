@@ -8,11 +8,24 @@ import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, Eye, Calendar, FileText } from 'lucide-react';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
 
 export default function BlogPosts() {
   const { data: posts, isLoading, error, refetch } = useAllBlogPosts();
   const { data: authors } = useAuthors();
   const { data: categories } = useCategories();
+
+  const handleDelete = async (id: string) => {
+    try {
+      await supabase.from('blog_posts').delete().eq('id', id);
+      toast({ title: 'Post deleted' });
+      refetch();
+    } catch {
+      toast({ title: 'Failed to delete post', variant: 'destructive' });
+    }
+  };
 
   if (isLoading) return <LoadingSkeleton />;
   if (error) return <ErrorState message="Failed to load blog posts" onRetry={refetch} />;
@@ -24,9 +37,11 @@ export default function BlogPosts() {
           <h1 className="text-3xl font-bold gradient-text">Blog Posts</h1>
           <p className="text-muted-foreground">Manage your blog content</p>
         </div>
-        <Button className="glow-hover">
-          <Plus className="h-4 w-4 mr-2" />
-          New Post
+        <Button className="glow-hover" asChild>
+          <Link to="/admin/posts/new">
+            <Plus className="h-4 w-4 mr-2" />
+            New Post
+          </Link>
         </Button>
       </div>
 
@@ -53,10 +68,17 @@ export default function BlogPosts() {
                     <Button variant="ghost" size="sm">
                       <Eye className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
-                      <Edit className="h-4 w-4" />
+                    <Button variant="ghost" size="sm" asChild>
+                      <Link to={`/admin/posts/${post.id}/edit`}>
+                        <Edit className="h-4 w-4" />
+                      </Link>
                     </Button>
-                    <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-destructive hover:text-destructive"
+                      onClick={() => handleDelete(post.id)}
+                    >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -116,9 +138,11 @@ export default function BlogPosts() {
               <p className="text-muted-foreground mb-4">
                 Start creating content for your blog
               </p>
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                Create Your First Post
+              <Button asChild>
+                <Link to="/admin/posts/new">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create Your First Post
+                </Link>
               </Button>
             </CardContent>
           </Card>
