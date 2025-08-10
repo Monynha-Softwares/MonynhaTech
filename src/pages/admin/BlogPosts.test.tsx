@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, vi } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
 import BlogPosts from './BlogPosts';
 
 vi.mock('@/hooks/useAllBlogPosts', () => ({
@@ -51,10 +52,16 @@ vi.mock('@/hooks/useCategories', () => ({
   useCategories: () => ({ data: [] }),
 }));
 
+vi.mock('@/hooks/use-toast', () => ({ toast: vi.fn() }));
+
 describe('Admin BlogPosts page', () => {
   it('renders published and draft badges', () => {
-    render(<BlogPosts />);
-    expect(screen.getByText('Published')).toBeInTheDocument();
-    expect(screen.getByText('Draft')).toBeInTheDocument();
+      render(
+        <MemoryRouter>
+          <BlogPosts />
+        </MemoryRouter>
+      );
+      expect(screen.getByText('Published')).toBeInTheDocument();
+      expect(screen.getByText('Draft')).toBeInTheDocument();
+    });
   });
-});
