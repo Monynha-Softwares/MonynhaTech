@@ -80,19 +80,26 @@ export function Projects() {
                 
                 <div className="p-6">
                   {/* Status Badge */}
-                  <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-4">
                   <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-400">
                     {t("Ativo", "Active")}
                   </span>
-                    <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                      <div className="flex items-center space-x-1">
-                        <Star className="w-4 h-4" />
-                        <span>{Math.floor(Math.random() * 3000) + 500}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Users className="w-4 h-4" />
-                        <span>{Math.floor(Math.random() * 30) + 5}</span>
-                      </div>
+                    <div
+                      className="flex items-center space-x-4 text-sm text-muted-foreground"
+                      data-testid="project-stats"
+                    >
+                      {project.stars !== undefined && project.stars !== null && (
+                        <div className="flex items-center space-x-1">
+                          <Star className="w-4 h-4" />
+                          <span>{project.stars}</span>
+                        </div>
+                      )}
+                      {project.users !== undefined && project.users !== null && (
+                        <div className="flex items-center space-x-1">
+                          <Users className="w-4 h-4" />
+                          <span>{project.users}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
