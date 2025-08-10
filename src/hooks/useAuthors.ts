@@ -1,8 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export function useAuthors() {
-  return useQuery({
+  const queryClient = useQueryClient();
+
+  const query = useQuery({
     queryKey: ['authors'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -17,4 +19,54 @@ export function useAuthors() {
       return data;
     },
   });
+
+  const createAuthor = useMutation({
+    mutationFn: async (values: any) => {
+      const { data, error } = await supabase
+        .from('authors')
+        .insert(values)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['authors'] });
+    },
+  });
+
+  const updateAuthor = useMutation({
+    mutationFn: async ({ id, ...values }: any) => {
+      const { error } = await supabase
+        .from('authors')
+        .update(values)
+        .eq('id', id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['authors'] });
+    },
+  });
+
+  const deleteAuthor = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('authors').delete().eq('id', id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['authors'] });
+    },
+  });
+
+  return { ...query, createAuthor, updateAuthor, deleteAuthor };
 }

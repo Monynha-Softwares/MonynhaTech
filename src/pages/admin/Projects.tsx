@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useProjects } from '@/hooks/useProjects';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,7 @@ import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, Eye, ExternalLink, Github, FolderOpen } from 'lucide-react';
 
 export default function Projects() {
+  const navigate = useNavigate();
   const { data: projects, isLoading, error, refetch } = useProjects();
 
   if (isLoading) return <LoadingSkeleton />;
@@ -20,7 +21,7 @@ export default function Projects() {
           <h1 className="text-3xl font-bold gradient-text">Projects</h1>
           <p className="text-muted-foreground">Manage your portfolio projects</p>
         </div>
-        <Button className="glow-hover">
+        <Button className="glow-hover" onClick={() => navigate('/admin/projects/new')}>
           <Plus className="h-4 w-4 mr-2" />
           New Project
         </Button>
@@ -55,7 +56,7 @@ export default function Projects() {
                     <Button variant="ghost" size="sm">
                       <Eye className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/projects/${project.id}/edit`)}>
                       <Edit className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
@@ -111,7 +112,7 @@ export default function Projects() {
               <p className="text-muted-foreground mb-4">
                 Start showcasing your work by adding projects
               </p>
-              <Button>
+              <Button onClick={() => navigate('/admin/projects/new')}>
                 <Plus className="h-4 w-4 mr-2" />
                 Create Your First Project
               </Button>

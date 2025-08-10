@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCategories } from '@/hooks/useCategories';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,7 @@ import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, BookOpen } from 'lucide-react';
 
 export default function Categories() {
+  const navigate = useNavigate();
   const { data: categories, isLoading, error, refetch } = useCategories();
 
   if (isLoading) return <LoadingSkeleton />;
@@ -20,7 +21,7 @@ export default function Categories() {
           <h1 className="text-3xl font-bold gradient-text">Categories</h1>
           <p className="text-muted-foreground">Organize your content with categories</p>
         </div>
-        <Button className="glow-hover">
+        <Button className="glow-hover" onClick={() => navigate('/admin/categories/new')}>
           <Plus className="h-4 w-4 mr-2" />
           New Category
         </Button>
@@ -45,7 +46,7 @@ export default function Categories() {
                   </Badge>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/categories/${category.id}/edit`)}>
                     <Edit className="h-4 w-4" />
                   </Button>
                   <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
@@ -79,7 +80,7 @@ export default function Categories() {
               <p className="text-muted-foreground mb-4">
                 Create categories to organize your content
               </p>
-              <Button>
+              <Button onClick={() => navigate('/admin/categories/new')}>
                 <Plus className="h-4 w-4 mr-2" />
                 Create Your First Category
               </Button>

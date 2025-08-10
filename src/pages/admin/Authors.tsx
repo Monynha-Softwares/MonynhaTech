@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuthors } from '@/hooks/useAuthors';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,6 +8,7 @@ import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, ExternalLink, Users as UsersIcon } from 'lucide-react';
 
 export default function Authors() {
+  const navigate = useNavigate();
   const { data: authors, isLoading, error, refetch } = useAuthors();
 
   if (isLoading) return <LoadingSkeleton />;
@@ -20,7 +21,7 @@ export default function Authors() {
           <h1 className="text-3xl font-bold gradient-text">Authors</h1>
           <p className="text-muted-foreground">Manage content creators and contributors</p>
         </div>
-        <Button className="glow-hover">
+        <Button className="glow-hover" onClick={() => navigate('/admin/authors/new')}>
           <Plus className="h-4 w-4 mr-2" />
           New Author
         </Button>
@@ -43,7 +44,7 @@ export default function Authors() {
                 <CardTitle className="font-space-grotesk">{author.name}</CardTitle>
                 
                 <div className="flex items-center justify-center gap-2 pt-2">
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" onClick={() => navigate(`/admin/authors/${author.id}/edit`)}>
                     <Edit className="h-4 w-4" />
                   </Button>
                   <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
@@ -100,7 +101,7 @@ export default function Authors() {
               <p className="text-muted-foreground mb-4">
                 Add content creators to start managing your team
               </p>
-              <Button>
+              <Button onClick={() => navigate('/admin/authors/new')}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Your First Author
               </Button>
