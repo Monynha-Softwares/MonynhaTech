@@ -21,6 +21,8 @@ import ProjectsIndex from "./pages/ProjectsIndex";
 import ProjectDetail from "./pages/ProjectDetail";
 import DocsIndex from "./pages/DocsIndex";
 import DocPage from "./pages/DocPage";
+import ErrorBoundary from "./pages/ErrorBoundary";
+import ServerError from "./pages/ServerError";
 
 const queryClient = new QueryClient();
 
@@ -32,26 +34,29 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/search" element={<SearchResults />} />
-              <Route path="/blog" element={<BlogIndex />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/projects" element={<ProjectsIndex />} />
-              <Route path="/projects/:slug" element={<ProjectDetail />} />
-              <Route path="/docs" element={<DocsIndex />} />
-              <Route path="/docs/:slug" element={<DocPage />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path="posts" element={<BlogPosts />} />
-                <Route path="projects" element={<Projects />} />
-                <Route path="authors" element={<Authors />} />
-                <Route path="categories" element={<Categories />} />
-              </Route>
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <ErrorBoundary>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/search" element={<SearchResults />} />
+                <Route path="/blog" element={<BlogIndex />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/projects" element={<ProjectsIndex />} />
+                <Route path="/projects/:slug" element={<ProjectDetail />} />
+                <Route path="/docs" element={<DocsIndex />} />
+                <Route path="/docs/:slug" element={<DocPage />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/admin" element={<AdminLayout />}> 
+                  <Route index element={<Dashboard />} />
+                  <Route path="posts" element={<BlogPosts />} />
+                  <Route path="projects" element={<Projects />} />
+                  <Route path="authors" element={<Authors />} />
+                  <Route path="categories" element={<Categories />} />
+                </Route>
+                <Route path="/500" element={<ServerError />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </ErrorBoundary>
           </BrowserRouter>
         </TooltipProvider>
       </LanguageProvider>
