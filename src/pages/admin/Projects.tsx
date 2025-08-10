@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, Eye, ExternalLink, Github, FolderOpen } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Projects() {
   const { data: projects, isLoading, error, refetch } = useProjects();
@@ -20,9 +21,11 @@ export default function Projects() {
           <h1 className="text-3xl font-bold gradient-text">Projects</h1>
           <p className="text-muted-foreground">Manage your portfolio projects</p>
         </div>
-        <Button className="glow-hover">
-          <Plus className="h-4 w-4 mr-2" />
-          New Project
+        <Button className="glow-hover" asChild>
+          <Link to="/admin/projects/new">
+            <Plus className="h-4 w-4 mr-2" />
+            New Project
+          </Link>
         </Button>
       </div>
 
@@ -55,8 +58,10 @@ export default function Projects() {
                     <Button variant="ghost" size="sm">
                       <Eye className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="sm">
-                      <Edit className="h-4 w-4" />
+                    <Button variant="ghost" size="sm" asChild>
+                      <Link to={`/admin/projects/${project.id}/edit`}>
+                        <Edit className="h-4 w-4" />
+                      </Link>
                     </Button>
                     <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
                       <Trash2 className="h-4 w-4" />

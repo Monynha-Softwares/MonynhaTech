@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, BookOpen } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Categories() {
   const { data: categories, isLoading, error, refetch } = useCategories();
@@ -20,9 +21,11 @@ export default function Categories() {
           <h1 className="text-3xl font-bold gradient-text">Categories</h1>
           <p className="text-muted-foreground">Organize your content with categories</p>
         </div>
-        <Button className="glow-hover">
-          <Plus className="h-4 w-4 mr-2" />
-          New Category
+        <Button className="glow-hover" asChild>
+          <Link to="/admin/categories/new">
+            <Plus className="h-4 w-4 mr-2" />
+            New Category
+          </Link>
         </Button>
       </div>
 
@@ -45,8 +48,10 @@ export default function Categories() {
                   </Badge>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="sm">
-                    <Edit className="h-4 w-4" />
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to={`/admin/categories/${category.id}/edit`}>
+                      <Edit className="h-4 w-4" />
+                    </Link>
                   </Button>
                   <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
                     <Trash2 className="h-4 w-4" />

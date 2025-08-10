@@ -16,6 +16,12 @@ import EditPost from "./pages/admin/posts/EditPost";
 import Projects from "./pages/admin/Projects";
 import Authors from "./pages/admin/Authors";
 import Categories from "./pages/admin/Categories";
+import NewProject from "./pages/admin/projects/NewProject";
+import EditProject from "./pages/admin/projects/EditProject";
+import NewAuthor from "./pages/admin/authors/NewAuthor";
+import EditAuthor from "./pages/admin/authors/EditAuthor";
+import NewCategory from "./pages/admin/categories/NewCategory";
+import EditCategory from "./pages/admin/categories/EditCategory";
 import SearchResults from "./pages/SearchResults";
 import BlogIndex from "./pages/BlogIndex";
 import BlogPost from "./pages/BlogPost";
@@ -54,9 +60,21 @@ const App = () => (
                     <Route path="new" element={<NewPost />} />
                     <Route path=":id/edit" element={<EditPost />} />
                   </Route>
-                  <Route path="projects" element={<Projects />} />
-                  <Route path="authors" element={<Authors />} />
-                  <Route path="categories" element={<Categories />} />
+                  <Route path="projects">
+                    <Route index element={<Projects />} />
+                    <Route path="new" element={<NewProject />} />
+                    <Route path=":id/edit" element={<EditProject />} />
+                  </Route>
+                  <Route path="authors">
+                    <Route index element={<Authors />} />
+                    <Route path="new" element={<NewAuthor />} />
+                    <Route path=":id/edit" element={<EditAuthor />} />
+                  </Route>
+                  <Route path="categories">
+                    <Route index element={<Categories />} />
+                    <Route path="new" element={<NewCategory />} />
+                    <Route path=":id/edit" element={<EditCategory />} />
+                  </Route>
                 </Route>
                 <Route path="/500" element={<ServerError />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
