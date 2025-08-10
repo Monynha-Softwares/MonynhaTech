@@ -64,7 +64,7 @@ export function Search({ className, placeholder, showResults = true }: SearchPro
   }, []);
 
   const handleResultClick = (result: any) => {
-    navigate(`/search?q=${encodeURIComponent(query)}`);
+    navigate(result.url);
     setIsOpen(false);
   };
 
