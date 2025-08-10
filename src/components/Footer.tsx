@@ -16,7 +16,7 @@ export function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center glow">
-                <Code2 className="w-7 h-7 text-white" />
+                <Code2 className="w-7 h-7 text-white" aria-hidden="true" />
               </div>
               <div>
                 <h3 className="text-2xl font-space-grotesk font-bold gradient-text">
@@ -34,17 +34,37 @@ export function Footer() {
               )}
             </p>
             <div className="flex space-x-4">
-              <Button variant="glass" size="icon">
-                <Github className="w-5 h-5" />
+              <Button
+                variant="glass"
+                size="icon"
+                aria-label={t("GitHub", "GitHub")}
+                title={t("GitHub", "GitHub")}
+              >
+                <Github className="w-5 h-5" aria-hidden="true" />
               </Button>
-              <Button variant="glass" size="icon">
-                <Twitter className="w-5 h-5" />
+              <Button
+                variant="glass"
+                size="icon"
+                aria-label={t("Twitter", "Twitter")}
+                title={t("Twitter", "Twitter")}
+              >
+                <Twitter className="w-5 h-5" aria-hidden="true" />
               </Button>
-              <Button variant="glass" size="icon">
-                <Linkedin className="w-5 h-5" />
+              <Button
+                variant="glass"
+                size="icon"
+                aria-label={t("LinkedIn", "LinkedIn")}
+                title={t("LinkedIn", "LinkedIn")}
+              >
+                <Linkedin className="w-5 h-5" aria-hidden="true" />
               </Button>
-              <Button variant="glass" size="icon">
-                <Mail className="w-5 h-5" />
+              <Button
+                variant="glass"
+                size="icon"
+                aria-label={t("Email", "Email")}
+                title={t("Email", "Email")}
+              >
+                <Mail className="w-5 h-5" aria-hidden="true" />
               </Button>
             </div>
           </div>
@@ -165,7 +185,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-border/30">
           <div className="flex items-center space-x-2 text-muted-foreground mb-4 md:mb-0">
             <span>© 2024 Monynha Softwares. {t("Feito com", "Made with")}</span>
-            <Heart className="w-4 h-4 text-pink-400" />
+            <Heart className="w-4 h-4 text-pink-400" aria-hidden="true" />
             <span>{t("e muito café.", "and lots of coffee.")}</span>
           </div>
           <div className="flex items-center space-x-6 text-sm text-muted-foreground">
