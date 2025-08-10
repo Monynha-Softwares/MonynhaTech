@@ -1,5 +1,7 @@
 # Playbook — Testes
 
+- Use `./ci_test_local.sh` para executar lint, typecheck e todos os testes localmente.
+
 ## Unit / Component
 - Vitest + Testing Library.
 - Cobrir lógica crítica (service, hooks) e componentes com interações.

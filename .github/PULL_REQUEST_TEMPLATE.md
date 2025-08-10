@@ -6,6 +6,7 @@
 - Não inclui:
 
 ### Como Testar
+- [ ] `./ci_test_local.sh`
 - [ ] Unit (Vitest)
 - [ ] Component (Testing Library)
 - [ ] E2E (Playwright)
