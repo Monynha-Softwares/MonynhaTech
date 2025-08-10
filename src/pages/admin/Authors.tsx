@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, ExternalLink, Users as UsersIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Authors() {
   const { data: authors, isLoading, error, refetch } = useAuthors();
@@ -20,9 +21,11 @@ export default function Authors() {
           <h1 className="text-3xl font-bold gradient-text">Authors</h1>
           <p className="text-muted-foreground">Manage content creators and contributors</p>
         </div>
-        <Button className="glow-hover">
-          <Plus className="h-4 w-4 mr-2" />
-          New Author
+        <Button className="glow-hover" asChild>
+          <Link to="/admin/authors/new">
+            <Plus className="h-4 w-4 mr-2" />
+            New Author
+          </Link>
         </Button>
       </div>
 
@@ -43,8 +46,10 @@ export default function Authors() {
                 <CardTitle className="font-space-grotesk">{author.name}</CardTitle>
                 
                 <div className="flex items-center justify-center gap-2 pt-2">
-                  <Button variant="ghost" size="sm">
-                    <Edit className="h-4 w-4" />
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to={`/admin/authors/${author.id}/edit`}>
+                      <Edit className="h-4 w-4" />
+                    </Link>
                   </Button>
                   <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
                     <Trash2 className="h-4 w-4" />
