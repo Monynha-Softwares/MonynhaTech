@@ -4,6 +4,7 @@ import { useProjects } from "@/hooks/useProjects";
 import { useLanguage } from "@/hooks/useLanguage";
 import { LoadingSkeleton } from "@/components/ui/loading-skeleton";
 import { ErrorState } from "@/components/ui/error-state";
+import { Link } from "react-router-dom";
 
 const gradients = [
   "from-primary to-primary-glow",
@@ -145,9 +146,11 @@ export function Projects() {
 
         {/* Call to Action */}
         <div className="text-center">
-          <Button variant="cyber" size="xl">
-            <Code className="w-5 h-5 mr-2" />
-            {t("Ver Todos os Projetos", "View All Projects")}
+          <Button variant="cyber" size="xl" asChild>
+            <Link to="/projects">
+              <Code className="w-5 h-5 mr-2" />
+              {t("Ver Todos os Projetos", "View All Projects")}
+            </Link>
           </Button>
         </div>
       </div>
