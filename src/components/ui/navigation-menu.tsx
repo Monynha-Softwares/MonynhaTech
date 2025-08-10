@@ -116,7 +116,6 @@ NavigationMenuIndicator.displayName =
   NavigationMenuPrimitive.Indicator.displayName
 
 export {
-  navigationMenuTriggerStyle,
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
@@ -126,3 +125,4 @@ export {
   NavigationMenuIndicator,
   NavigationMenuViewport,
 }
+export { navigationMenuTriggerStyle } // eslint-disable-line react-refresh/only-export-components

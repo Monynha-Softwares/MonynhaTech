@@ -26,4 +26,5 @@ const Toaster = ({ ...props }: ToasterProps) => {
   )
 }
 
-export { Toaster, toast }
+export { Toaster }
+export { toast } // eslint-disable-line react-refresh/only-export-components
