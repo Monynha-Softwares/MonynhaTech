@@ -157,6 +157,47 @@ export type Database = {
         }
         Relationships: []
       }
+      comments: {
+        Row: {
+          approved: boolean | null
+          content: string
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          post_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          approved?: boolean | null
+          content: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          post_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          approved?: boolean | null
+          content?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          post_id?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       docs: {
         Row: {
           content_en: string | null
