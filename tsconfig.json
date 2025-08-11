@@ -1,13 +1,15 @@
 {
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
+    { "path": "./apps/web-monynha-tech/tsconfig.json" },
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./apps/web-monynha-tech/src/*"],
+      "@/components/ui/*": ["./packages/ui/src/*"],
+      "@/integrations/supabase/*": ["./packages/supabase/src/*"]
     },
     "noImplicitAny": false,
     "noUnusedParameters": false,
