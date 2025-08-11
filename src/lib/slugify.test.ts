@@ -13,4 +13,8 @@ describe('slugify', () => {
   it('removes special characters', () => {
     expect(slugify('Árvores & Flores!')).toBe('arvores-flores');
   });
+
+  it('collapses multiple and trims leading/trailing hyphens', () => {
+    expect(slugify('--Hello  --  World--')).toBe('hello-world');
+  });
 });
