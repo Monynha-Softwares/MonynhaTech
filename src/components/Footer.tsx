@@ -38,7 +38,7 @@ export function Footer() {
                 variant="glass"
                 size="icon"
                 aria-label={t('GitHub', 'GitHub')}
-                title="GitHub"
+                title={t('GitHub', 'GitHub')}
               >
                 <Github className="w-5 h-5" aria-hidden="true" />
               </Button>
@@ -46,7 +46,7 @@ export function Footer() {
                 variant="glass"
                 size="icon"
                 aria-label={t('Twitter', 'Twitter')}
-                title="Twitter"
+                title={t('Twitter', 'Twitter')}
               >
                 <Twitter className="w-5 h-5" aria-hidden="true" />
               </Button>
@@ -54,7 +54,7 @@ export function Footer() {
                 variant="glass"
                 size="icon"
                 aria-label={t('LinkedIn', 'LinkedIn')}
-                title="LinkedIn"
+                title={t('LinkedIn', 'LinkedIn')}
               >
                 <Linkedin className="w-5 h-5" aria-hidden="true" />
               </Button>
@@ -121,7 +121,7 @@ export function Footer() {
                   rel="noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  GitHub
+                  {t('GitHub', 'GitHub')}
                 </a>
               </li>
               <li>
@@ -141,7 +141,7 @@ export function Footer() {
                   rel="noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Roadmap
+                  {t('Roadmap', 'Roadmap')}
                 </a>
               </li>
               <li>
@@ -151,7 +151,7 @@ export function Footer() {
                   rel="noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Status
+                  {t('Status', 'Status')}
                 </a>
               </li>
             </ul>

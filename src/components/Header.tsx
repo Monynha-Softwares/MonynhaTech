@@ -23,7 +23,9 @@ export function Header() {
               <h1 className="text-xl font-space-grotesk font-bold gradient-text">
                 Monynha Softwares
               </h1>
-              <p className="text-xs text-muted-foreground">Futuristic Development</p>
+              <p className="text-xs text-muted-foreground">
+                {t('Desenvolvimento Futurista', 'Futuristic Development')}
+              </p>
             </div>
           </div>
 
@@ -63,7 +65,7 @@ export function Header() {
               </select>
             </div>
             <Button variant="ghost" size="icon" asChild className="glow-hover">
-              <Link to="/admin" title="Admin Panel">
+              <Link to="/admin" title={t('Painel Admin', 'Admin Panel')}>
                 <Settings className="h-4 w-4" aria-hidden="true" />
               </Link>
             </Button>
@@ -126,7 +128,7 @@ export function Header() {
               <Button variant="ghost" size="sm" asChild className="mt-2">
                 <Link to="/admin" className="flex items-center gap-2">
                   <Settings className="h-4 w-4" aria-hidden="true" />
-                  Admin
+                  {t('Admin', 'Admin')}
                 </Link>
               </Button>
             </nav>

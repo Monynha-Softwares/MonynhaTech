@@ -19,7 +19,7 @@ const NotFound = () => {
       ),
       location.pathname
     );
-  }, [location.pathname]);
+  }, [location.pathname, t]);
 
   useSEO({
     title: t("404 - Página não encontrada", "404 - Page not found"),

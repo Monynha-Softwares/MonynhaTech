@@ -3,6 +3,16 @@ import { ArrowRight, Sparkles, Zap, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/hooks/useLanguage";
 
+const techStack = [
+  { pt: "React", en: "React" },
+  { pt: "TypeScript", en: "TypeScript" },
+  { pt: "Next.js", en: "Next.js" },
+  { pt: "Supabase", en: "Supabase" },
+  { pt: "Tailwind", en: "Tailwind" },
+  { pt: "Payload CMS", en: "Payload CMS" },
+  { pt: "Turborepo", en: "Turborepo" }
+];
+
 export function Hero() {
   const { t } = useLanguage();
   return (
@@ -64,12 +74,12 @@ export function Hero() {
 
           {/* Tech Stack Badges */}
           <div className="flex flex-wrap justify-center gap-3">
-            {[
-              "React", "TypeScript", "Next.js", "Supabase", 
-              "Tailwind", "Payload CMS", "Turborepo"
-            ].map((tech) => (
-              <div key={tech} className="glass px-4 py-2 rounded-xl text-sm font-jetbrains-mono">
-                {tech}
+            {techStack.map((tech) => (
+              <div
+                key={tech.en}
+                className="glass px-4 py-2 rounded-xl text-sm font-jetbrains-mono"
+              >
+                {t(tech.pt, tech.en)}
               </div>
             ))}
           </div>
