@@ -140,7 +140,7 @@ export function Projects() {
                       <Button variant="glow" size="sm" className="flex-1" asChild>
                         <a href={projectLinks.demo} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="w-4 h-4 mr-2" />
-                          Demo
+                          {t('Demo', 'Demo')}
                         </a>
                       </Button>
                     )}
