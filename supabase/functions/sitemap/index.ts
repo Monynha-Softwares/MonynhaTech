@@ -17,7 +17,7 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_ANON_KEY') ?? '',
     )
 
-    const baseUrl = req.headers.get('origin') || 'https://fineleshydmsyjcvffye.supabase.co'
+    const baseUrl = req.headers.get('origin') || 'https://db.monynha.tech'
     
     // Fetch all published content
     const [blogPosts, projects, docs] = await Promise.all([
