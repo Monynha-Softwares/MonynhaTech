@@ -1,15 +1,27 @@
-import { useState } from 'react';
 import { useProjects } from '@/hooks/useProjects';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, Eye, ExternalLink, Github, FolderOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
 
 export default function Projects() {
-  const { data: projects, isLoading, error, refetch } = useProjects();
+  const { data: projects, isLoading, error, refetch, deleteProject } = useProjects();
+
+  const handleDelete = async (id: string, name: string) => {
+    const confirmed = window.confirm(`Are you sure you want to delete ${name}?`);
+    if (!confirmed) return;
+
+    try {
+      await deleteProject(id);
+      toast({ title: 'Project deleted' });
+    } catch (err) {
+      console.error(err);
+      toast({ title: 'Failed to delete project', variant: 'destructive' });
+    }
+  };
 
   if (isLoading) return <LoadingSkeleton />;
   if (error) return <ErrorState message="Failed to load projects" onRetry={refetch} />;
@@ -55,7 +67,7 @@ export default function Projects() {
                     )}
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="sm">
+                    <Button variant="ghost" size="sm" aria-label={`View ${project.name_pt}`}>
                       <Eye className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="sm" asChild>
@@ -63,7 +75,13 @@ export default function Projects() {
                         <Edit className="h-4 w-4" />
                       </Link>
                     </Button>
-                    <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-destructive hover:text-destructive"
+                      aria-label={`Delete ${project.name_pt}`}
+                      onClick={() => handleDelete(project.id, project.name_pt)}
+                    >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
