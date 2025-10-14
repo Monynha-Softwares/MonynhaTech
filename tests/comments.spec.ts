@@ -1,6 +1,10 @@
 import { test, expect } from '@playwright/test';
 
-const SUPABASE_URL = 'https://fineleshydmsyjcvffye.supabase.co';
+const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
+
+if (!SUPABASE_URL) {
+  throw new Error('VITE_SUPABASE_URL must be defined for Playwright tests.');
+}
 
 test('user can submit comment', async ({ page }) => {
   await page.route(`${SUPABASE_URL}/rest/v1/blog_posts*`, route => {
