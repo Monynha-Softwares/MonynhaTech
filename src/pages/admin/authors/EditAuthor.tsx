@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -8,23 +9,21 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-
-interface FormValues {
-  name: string;
-  bio?: string;
-  links: string;
-  photo_url?: string;
-}
+import { LinkFields } from '@/components/admin/LinkFields';
+import {
+  authorFormSchema,
+  createAuthorDefaultValues,
+  type AuthorFormValues,
+} from '@/lib/validation/adminForms';
+import { parseLinksToForm } from '@/lib/validation/links';
+import { buildAuthorPayload } from '@/lib/supabase/payloadBuilders';
+import { getErrorMessage } from '@/lib/errors';
 
 export default function EditAuthor() {
   const { id } = useParams<{ id: string }>();
-  const form = useForm<FormValues>({
-    defaultValues: {
-      name: '',
-      bio: '',
-      links: '',
-      photo_url: '',
-    },
+  const form = useForm<AuthorFormValues>({
+    resolver: zodResolver(authorFormSchema),
+    defaultValues: createAuthorDefaultValues(),
   });
 
   const navigate = useNavigate();
@@ -34,22 +33,35 @@ export default function EditAuthor() {
 
   useEffect(() => {
     const fetchAuthor = async () => {
-      const { data, error } = await supabase
-        .from('authors')
-        .select('*')
-        .eq('id', id)
-        .single();
-      if (error) {
-        toast({ title: 'Failed to load author', variant: 'destructive' });
-        return;
+      try {
+        const { data, error } = await supabase
+          .from('authors')
+          .select('*')
+          .eq('id', id)
+          .single();
+        if (error) {
+          toast({
+            title: 'Failed to load author',
+            description: getErrorMessage(error),
+            variant: 'destructive',
+          });
+          return;
+        }
+        form.reset({
+          name: data.name,
+          bio: data.bio || '',
+          links: parseLinksToForm(data.links as Record<string, unknown> | null),
+          photo_url: data.photo_url || '',
+        });
+      } catch (error) {
+        toast({
+          title: 'Failed to load author',
+          description: getErrorMessage(error),
+          variant: 'destructive',
+        });
+      } finally {
+        setLoading(false);
       }
-      form.reset({
-        name: data.name,
-        bio: data.bio || '',
-        links: data.links ? JSON.stringify(data.links) : '',
-        photo_url: data.photo_url || '',
-      });
-      setLoading(false);
     };
     fetchAuthor();
   }, [id, form]);
@@ -64,31 +76,34 @@ export default function EditAuthor() {
       if (error) throw error;
       form.setValue('photo_url', filePath);
       toast({ title: 'Photo uploaded', description: filePath });
-    } catch {
-      toast({ title: 'Failed to upload photo', variant: 'destructive' });
+    } catch (error) {
+      toast({
+        title: 'Failed to upload photo',
+        description: getErrorMessage(error),
+        variant: 'destructive',
+      });
     } finally {
       setUploading(false);
     }
   };
 
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit = async (values: AuthorFormValues) => {
     try {
-      const links = values.links ? JSON.parse(values.links) : null;
+      const payload = buildAuthorPayload(values);
       const { error } = await supabase
         .from('authors')
-        .update({
-          name: values.name,
-          bio: values.bio,
-          links,
-          photo_url: values.photo_url,
-        })
+        .update(payload)
         .eq('id', id);
       if (error) throw error;
       toast({ title: 'Author updated' });
       queryClient.invalidateQueries({ queryKey: ['authors'] });
       navigate('/admin/authors');
-    } catch {
-      toast({ title: 'Failed to update author', variant: 'destructive' });
+    } catch (error) {
+      toast({
+        title: 'Failed to update author',
+        description: getErrorMessage(error),
+        variant: 'destructive',
+      });
     }
   };
 
@@ -98,8 +113,12 @@ export default function EditAuthor() {
       toast({ title: 'Author deleted' });
       queryClient.invalidateQueries({ queryKey: ['authors'] });
       navigate('/admin/authors');
-    } catch {
-      toast({ title: 'Failed to delete author', variant: 'destructive' });
+    } catch (error) {
+      toast({
+        title: 'Failed to delete author',
+        description: getErrorMessage(error),
+        variant: 'destructive',
+      });
     }
   };
 
@@ -143,19 +162,7 @@ export default function EditAuthor() {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="links"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Links (JSON)</FormLabel>
-                <FormControl>
-                  <Textarea {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <LinkFields form={form} />
 
           <div>
             <FormLabel>Photo</FormLabel>
