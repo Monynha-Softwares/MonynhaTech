@@ -13,8 +13,8 @@ Público‑alvo: agentes Codex e Condex sem contexto prévio do projeto.
 - **Nunca** commitar segredos. Use `.env.local` (gitignored) ou Secrets do CI.
 - Variáveis esperadas:
   - `DATABASE_URL` (Postgres/Supabase, já existente no ambiente)
-  - `SUPABASE_URL`
-  - `SUPABASE_PUBLISHABLE_KEY` (uso no cliente)
+  - `VITE_SUPABASE_URL`
+  - `VITE_SUPABASE_ANON_KEY` (uso no cliente)
   - `SUPABASE_SERVICE_KEY` (**somente** em server/CI; já existente no ambiente)
   - Opcionais: `SITE_URL`, `SENTRY_DSN`, `VERCEL_ANALYTICS_TOKEN`
 - Regra de ouro: **service key nunca no cliente**. Operações com privilégio → API server/Edge/CI.
