@@ -9,6 +9,7 @@ import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { sanitizeHtml } from '@/lib/sanitize-html';
 
 export default function DocPage() {
   const { slug } = useParams();
@@ -54,7 +55,15 @@ export default function DocPage() {
             <h1 className="text-4xl font-bold gradient-text mb-4">{language === 'pt' ? doc.title_pt : (doc.title_en || doc.title_pt)}</h1>
             <Card className="glass-card">
               <CardContent className="prose prose-invert max-w-none">
-                <div dangerouslySetInnerHTML={{ __html: (language === 'pt' ? doc.content_pt : (doc.content_en || doc.content_pt)) || '' }} />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: sanitizeHtml(
+                      language === 'pt'
+                        ? doc.content_pt
+                        : (doc.content_en || doc.content_pt)
+                    ),
+                  }}
+                />
               </CardContent>
             </Card>
             <div className="mt-8">
