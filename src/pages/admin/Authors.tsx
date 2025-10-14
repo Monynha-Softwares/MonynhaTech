@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useAuthors } from '@/hooks/useAuthors';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,9 +6,23 @@ import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, ExternalLink, Users as UsersIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
 
 export default function Authors() {
-  const { data: authors, isLoading, error, refetch } = useAuthors();
+  const { data: authors, isLoading, error, refetch, deleteAuthor } = useAuthors();
+
+  const handleDelete = async (id: string, name: string) => {
+    const confirmed = window.confirm(`Are you sure you want to delete ${name}?`);
+    if (!confirmed) return;
+
+    try {
+      await deleteAuthor(id);
+      toast({ title: 'Author deleted' });
+    } catch (err) {
+      console.error(err);
+      toast({ title: 'Failed to delete author', variant: 'destructive' });
+    }
+  };
 
   if (isLoading) return <LoadingSkeleton />;
   if (error) return <ErrorState message="Failed to load authors" onRetry={refetch} />;
@@ -51,7 +64,13 @@ export default function Authors() {
                       <Edit className="h-4 w-4" />
                     </Link>
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-destructive hover:text-destructive"
+                    aria-label={`Delete ${author.name}`}
+                    onClick={() => handleDelete(author.id, author.name)}
+                  >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useCategories } from '@/hooks/useCategories';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,9 +6,23 @@ import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from '@/hooks/use-toast';
 
 export default function Categories() {
-  const { data: categories, isLoading, error, refetch } = useCategories();
+  const { data: categories, isLoading, error, refetch, deleteCategory } = useCategories();
+
+  const handleDelete = async (id: string, title: string) => {
+    const confirmed = window.confirm(`Are you sure you want to delete ${title}?`);
+    if (!confirmed) return;
+
+    try {
+      await deleteCategory(id);
+      toast({ title: 'Category deleted' });
+    } catch (err) {
+      console.error(err);
+      toast({ title: 'Failed to delete category', variant: 'destructive' });
+    }
+  };
 
   if (isLoading) return <LoadingSkeleton />;
   if (error) return <ErrorState message="Failed to load categories" onRetry={refetch} />;
@@ -53,7 +66,13 @@ export default function Categories() {
                       <Edit className="h-4 w-4" />
                     </Link>
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-destructive hover:text-destructive"
+                    aria-label={`Delete ${category.title_pt}`}
+                    onClick={() => handleDelete(category.id, category.title_pt)}
+                  >
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
