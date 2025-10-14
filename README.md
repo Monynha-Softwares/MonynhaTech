@@ -15,6 +15,15 @@ pnpm install
 pnpm dev
 ```
 
+## Environment variables
+
+Create a `.env.local` file based on `.env.example` and configure the Supabase client credentials expected by Vite:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY`
+
+These variables are required both at runtime and during tests.
+
 ## Local CI checks
 Run the same commands used in the GitHub Actions workflow:
 
