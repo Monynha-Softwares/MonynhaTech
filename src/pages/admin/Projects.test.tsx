@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Projects from './Projects';
+import type { Project } from '@/hooks/useProjects';
 
 const { deleteProjectMock } = vi.hoisted(() => ({
   deleteProjectMock: vi.fn(),
@@ -13,19 +14,24 @@ const { toastMock } = vi.hoisted(() => ({
   toastMock: vi.fn(),
 }));
 
+const projectMock: Project = {
+  id: 'project-1',
+  slug: 'project',
+  name_pt: 'Projeto',
+  name_en: 'Project',
+  description_pt: 'Descrição',
+  description_en: 'Description',
+  icon: null,
+  links: {
+    github: 'https://github.com/monynha/project',
+  },
+  created_at: '2024-01-01T00:00:00.000Z',
+  updated_at: '2024-01-02T00:00:00.000Z',
+};
+
 vi.mock('@/hooks/useProjects', () => ({
   useProjects: () => ({
-    data: [
-      {
-        id: 'project-1',
-        name_pt: 'Projeto',
-        name_en: 'Project',
-        description_pt: 'Descrição',
-        description_en: 'Description',
-        links: {},
-        icon: null,
-      },
-    ],
+    data: [projectMock],
     isLoading: false,
     error: null,
     refetch: vi.fn(),

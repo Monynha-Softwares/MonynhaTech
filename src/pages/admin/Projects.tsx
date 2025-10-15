@@ -43,8 +43,8 @@ export default function Projects() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {projects?.map((project) => {
-          const links = project.links as any;
-          
+          const links = project.links;
+
           return (
             <Card key={project.id} className="glass-card glow-hover">
               <CardHeader>
@@ -100,7 +100,7 @@ export default function Projects() {
                     EN: {project.description_en}
                   </p>
                 )}
-                
+
                 {links && (
                   <div className="flex flex-wrap gap-2">
                     {links.demo && (

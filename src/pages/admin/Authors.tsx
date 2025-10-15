@@ -44,18 +44,18 @@ export default function Authors() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {authors?.map((author) => {
-          const links = author.links as any;
-          
+          const links = author.links;
+
           return (
             <Card key={author.id} className="glass-card glow-hover">
               <CardHeader className="text-center">
                 <Avatar className="w-16 h-16 mx-auto mb-4">
-                  <AvatarImage src={author.photo_url || ''} alt={author.name} />
+                  <AvatarImage src={author.photo_url ?? ''} alt={author.name} />
                   <AvatarFallback className="text-lg font-semibold bg-primary/20 text-primary">
                     {author.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
                   </AvatarFallback>
                 </Avatar>
-                
+
                 <CardTitle className="font-space-grotesk">{author.name}</CardTitle>
                 
                 <div className="flex items-center justify-center gap-2 pt-2">
