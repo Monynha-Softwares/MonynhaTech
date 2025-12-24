@@ -1,10 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
-
-if (!SUPABASE_URL) {
-  throw new Error('VITE_SUPABASE_URL must be defined for Playwright tests.');
-}
+const SUPABASE_URL = 'https://fineleshydmsyjcvffye.supabase.co';
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {

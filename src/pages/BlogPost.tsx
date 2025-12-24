@@ -10,7 +10,6 @@ import { ErrorState } from '@/components/ui/error-state';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Comments } from '@/components/Comments';
-import { sanitizeHtml } from '@/lib/sanitize-html';
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -62,15 +61,7 @@ export default function BlogPost() {
             )}
             <Card className="glass-card">
               <CardContent className="prose prose-invert max-w-none">
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: sanitizeHtml(
-                      language === 'pt'
-                        ? post.content_pt
-                        : (post.content_en || post.content_pt)
-                    ),
-                  }}
-                />
+                <div dangerouslySetInnerHTML={{ __html: (language === 'pt' ? post.content_pt : (post.content_en || post.content_pt)) || '' }} />
               </CardContent>
             </Card>
             <Comments postId={post.id} />

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useAuthors } from '@/hooks/useAuthors';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,23 +7,9 @@ import { LoadingSkeleton } from '@/components/ui/loading-skeleton';
 import { ErrorState } from '@/components/ui/error-state';
 import { Plus, Edit, Trash2, ExternalLink, Users as UsersIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { toast } from '@/hooks/use-toast';
 
 export default function Authors() {
-  const { data: authors, isLoading, error, refetch, deleteAuthor } = useAuthors();
-
-  const handleDelete = async (id: string, name: string) => {
-    const confirmed = window.confirm(`Are you sure you want to delete ${name}?`);
-    if (!confirmed) return;
-
-    try {
-      await deleteAuthor(id);
-      toast({ title: 'Author deleted' });
-    } catch (err) {
-      console.error(err);
-      toast({ title: 'Failed to delete author', variant: 'destructive' });
-    }
-  };
+  const { data: authors, isLoading, error, refetch } = useAuthors();
 
   if (isLoading) return <LoadingSkeleton />;
   if (error) return <ErrorState message="Failed to load authors" onRetry={refetch} />;
@@ -44,18 +31,18 @@ export default function Authors() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {authors?.map((author) => {
-          const links = author.links;
-
+          const links = author.links as any;
+          
           return (
             <Card key={author.id} className="glass-card glow-hover">
               <CardHeader className="text-center">
                 <Avatar className="w-16 h-16 mx-auto mb-4">
-                  <AvatarImage src={author.photo_url ?? ''} alt={author.name} />
+                  <AvatarImage src={author.photo_url || ''} alt={author.name} />
                   <AvatarFallback className="text-lg font-semibold bg-primary/20 text-primary">
                     {author.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
                   </AvatarFallback>
                 </Avatar>
-
+                
                 <CardTitle className="font-space-grotesk">{author.name}</CardTitle>
                 
                 <div className="flex items-center justify-center gap-2 pt-2">
@@ -64,13 +51,7 @@ export default function Authors() {
                       <Edit className="h-4 w-4" />
                     </Link>
                   </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-destructive hover:text-destructive"
-                    aria-label={`Delete ${author.name}`}
-                    onClick={() => handleDelete(author.id, author.name)}
-                  >
+                  <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive">
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>

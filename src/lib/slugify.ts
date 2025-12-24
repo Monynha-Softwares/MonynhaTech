@@ -5,7 +5,5 @@ export function slugify(text: string): string {
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
+    .replace(/\s+/g, '-');
 }

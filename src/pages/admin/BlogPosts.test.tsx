@@ -79,7 +79,7 @@ describe('Admin BlogPosts page', () => {
   it('renders published and draft badges', () => {
     render(
       <QueryClientProvider client={queryClient}>
-        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <MemoryRouter>
           <BlogPosts />
         </MemoryRouter>
       </QueryClientProvider>
@@ -93,7 +93,7 @@ describe('Admin BlogPosts page', () => {
     const spy = vi.spyOn(queryClient, 'setQueryData');
     render(
       <QueryClientProvider client={queryClient}>
-        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <MemoryRouter>
           <BlogPosts />
         </MemoryRouter>
       </QueryClientProvider>

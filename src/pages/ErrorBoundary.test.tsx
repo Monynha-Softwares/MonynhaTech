@@ -22,10 +22,7 @@ const renderWithLang = (lang: 'pt' | 'en') => {
   render(
     <LanguageProvider>
       <LanguageSetter lang={lang} />
-      <MemoryRouter
-        initialEntries={["/"]}
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-      >
+      <MemoryRouter initialEntries={["/"]}>
         <Routes>
           <Route
             path="/"

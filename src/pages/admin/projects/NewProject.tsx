@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -10,19 +9,28 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { slugify } from '@/lib/slugify';
-import { LinkFields } from '@/components/admin/LinkFields';
-import {
-  createProjectDefaultValues,
-  projectFormSchema,
-  type ProjectFormValues,
-} from '@/lib/validation/adminForms';
-import { buildProjectPayload } from '@/lib/supabase/payloadBuilders';
-import { getErrorMessage } from '@/lib/errors';
+
+interface FormValues {
+  slug: string;
+  name_pt: string;
+  name_en?: string;
+  description_pt?: string;
+  description_en?: string;
+  links: string;
+  icon?: string;
+}
 
 export default function NewProject() {
-  const form = useForm<ProjectFormValues>({
-    resolver: zodResolver(projectFormSchema),
-    defaultValues: createProjectDefaultValues(),
+  const form = useForm<FormValues>({
+    defaultValues: {
+      slug: '',
+      name_pt: '',
+      name_en: '',
+      description_pt: '',
+      description_en: '',
+      links: '',
+      icon: '',
+    },
   });
 
   const navigate = useNavigate();
@@ -44,31 +52,31 @@ export default function NewProject() {
       if (error) throw error;
       form.setValue('icon', filePath);
       toast({ title: 'Icon uploaded', description: filePath });
-    } catch (error) {
-      toast({
-        title: 'Failed to upload icon',
-        description: getErrorMessage(error),
-        variant: 'destructive',
-      });
+    } catch {
+      toast({ title: 'Failed to upload icon', variant: 'destructive' });
     } finally {
       setUploading(false);
     }
   };
 
-  const onSubmit = async (values: ProjectFormValues) => {
+  const onSubmit = async (values: FormValues) => {
     try {
-      const payload = buildProjectPayload(values);
-      const { error } = await supabase.from('projects').insert(payload);
+      const links = values.links ? JSON.parse(values.links) : null;
+      const { error } = await supabase.from('projects').insert({
+        slug: values.slug,
+        name_pt: values.name_pt,
+        name_en: values.name_en,
+        description_pt: values.description_pt,
+        description_en: values.description_en,
+        links,
+        icon: values.icon,
+      });
       if (error) throw error;
       toast({ title: 'Project created' });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
       navigate('/admin/projects');
-    } catch (error) {
-      toast({
-        title: 'Failed to create project',
-        description: getErrorMessage(error),
-        variant: 'destructive',
-      });
+    } catch {
+      toast({ title: 'Failed to create project', variant: 'destructive' });
     }
   };
 
@@ -147,7 +155,19 @@ export default function NewProject() {
             )}
           />
 
-          <LinkFields form={form} />
+          <FormField
+            control={form.control}
+            name="links"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Links (JSON)</FormLabel>
+                <FormControl>
+                  <Textarea {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <div>
             <FormLabel>Icon</FormLabel>

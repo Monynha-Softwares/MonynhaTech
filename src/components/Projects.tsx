@@ -66,11 +66,12 @@ export function Projects() {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
           {projects?.map((project, index) => {
+            const projectLinks = project.links as any;
             const gradientClass = gradients[index % gradients.length];
-
+            
             return (
-              <div
-                key={project.id}
+              <div 
+                key={project.id} 
                 className="glass-card glow-hover group cursor-pointer"
                 style={{ animationDelay: `${index * 0.2}s` }}
               >
@@ -104,16 +105,12 @@ export function Projects() {
 
                   {/* Project Title */}
                   <h3 className="text-2xl font-space-grotesk font-semibold mb-3 group-hover:gradient-text transition-all">
-                    {language === 'pt'
-                      ? project.name_pt
-                      : project.name_en ?? project.name_pt}
+                    {language === 'pt' ? project.name_pt : (project.name_en || project.name_pt)}
                   </h3>
 
                   {/* Description */}
                   <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {language === 'pt'
-                      ? project.description_pt ?? project.description_en ?? ''
-                      : project.description_en ?? project.description_pt ?? ''}
+                    {language === 'pt' ? project.description_pt : (project.description_en || project.description_pt)}
                   </p>
 
                   {/* Tech Stack */}
@@ -131,17 +128,17 @@ export function Projects() {
 
                   {/* Action Buttons */}
                   <div className="flex space-x-3">
-                    {project.links?.github && (
+                    {projectLinks?.github && (
                       <Button variant="outline" size="sm" className="flex-1" asChild>
-                        <a href={project.links.github} target="_blank" rel="noopener noreferrer">
+                        <a href={projectLinks.github} target="_blank" rel="noopener noreferrer">
                           <Github className="w-4 h-4 mr-2" />
                           {t("Código", "Code")}
                         </a>
                       </Button>
                     )}
-                    {project.links?.demo && (
+                    {projectLinks?.demo && (
                       <Button variant="glow" size="sm" className="flex-1" asChild>
-                        <a href={project.links.demo} target="_blank" rel="noopener noreferrer">
+                        <a href={projectLinks.demo} target="_blank" rel="noopener noreferrer">
                           <ExternalLink className="w-4 h-4 mr-2" />
                           {t('Demo', 'Demo')}
                         </a>

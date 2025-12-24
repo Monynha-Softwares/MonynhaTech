@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,19 +8,22 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { LinkFields } from '@/components/admin/LinkFields';
-import {
-  authorFormSchema,
-  createAuthorDefaultValues,
-  type AuthorFormValues,
-} from '@/lib/validation/adminForms';
-import { buildAuthorPayload } from '@/lib/supabase/payloadBuilders';
-import { getErrorMessage } from '@/lib/errors';
+
+interface FormValues {
+  name: string;
+  bio?: string;
+  links: string;
+  photo_url?: string;
+}
 
 export default function NewAuthor() {
-  const form = useForm<AuthorFormValues>({
-    resolver: zodResolver(authorFormSchema),
-    defaultValues: createAuthorDefaultValues(),
+  const form = useForm<FormValues>({
+    defaultValues: {
+      name: '',
+      bio: '',
+      links: '',
+      photo_url: '',
+    },
   });
 
   const navigate = useNavigate();
@@ -38,31 +40,28 @@ export default function NewAuthor() {
       if (error) throw error;
       form.setValue('photo_url', filePath);
       toast({ title: 'Photo uploaded', description: filePath });
-    } catch (error) {
-      toast({
-        title: 'Failed to upload photo',
-        description: getErrorMessage(error),
-        variant: 'destructive',
-      });
+    } catch {
+      toast({ title: 'Failed to upload photo', variant: 'destructive' });
     } finally {
       setUploading(false);
     }
   };
 
-  const onSubmit = async (values: AuthorFormValues) => {
+  const onSubmit = async (values: FormValues) => {
     try {
-      const payload = buildAuthorPayload(values);
-      const { error } = await supabase.from('authors').insert(payload);
+      const links = values.links ? JSON.parse(values.links) : null;
+      const { error } = await supabase.from('authors').insert({
+        name: values.name,
+        bio: values.bio,
+        links,
+        photo_url: values.photo_url,
+      });
       if (error) throw error;
       toast({ title: 'Author created' });
       queryClient.invalidateQueries({ queryKey: ['authors'] });
       navigate('/admin/authors');
-    } catch (error) {
-      toast({
-        title: 'Failed to create author',
-        description: getErrorMessage(error),
-        variant: 'destructive',
-      });
+    } catch {
+      toast({ title: 'Failed to create author', variant: 'destructive' });
     }
   };
 
@@ -99,7 +98,19 @@ export default function NewAuthor() {
             )}
           />
 
-          <LinkFields form={form} />
+          <FormField
+            control={form.control}
+            name="links"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Links (JSON)</FormLabel>
+                <FormControl>
+                  <Textarea {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
           <div>
             <FormLabel>Photo</FormLabel>

@@ -28,19 +28,15 @@ export default function ProjectsIndex() {
         {error && <ErrorState message={t('Erro ao carregar projetos.', 'Failed to load projects.')} />}
         {!isLoading && projects && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project) => (
+            {projects.map((project: any) => (
               <Card key={project.id} className="glass-card">
                 <CardHeader>
                   <CardTitle className="text-xl">
-                    <Link to={`/projects/${project.slug}`} className="hover:text-primary">
-                      {project.name_pt || project.name_en || t('Projeto', 'Project')}
-                    </Link>
+                    <Link to={`/projects/${project.slug}`} className="hover:text-primary">{project.name_pt || project.name_en}</Link>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground line-clamp-3">
-                    {project.description_pt ?? project.description_en ?? ''}
-                  </p>
+                  <p className="text-muted-foreground line-clamp-3">{project.description_pt || project.description_en}</p>
                   <Button variant="outline" size="sm" asChild className="mt-4"><Link to={`/projects/${project.slug}`}>{t('Ver detalhes', 'View details')}</Link></Button>
                 </CardContent>
               </Card>
